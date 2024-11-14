@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 // Define the filters for organization names
-const filters: { [key: string]: string } = {
+const OranizationNamefilters: { [key: string]: string } = {
   "The Apertium Project": "Apertium",
   "AOSSIE - Australian Open Source Software Innovation and Education": "AOSSIE",
   "Berkman Center for Internet and Society":
@@ -38,12 +38,33 @@ const filters: { [key: string]: string } = {
   "Kodi Foundation": "Kodi",
 };
 
+const OranizationCatagoryfilters: { [key: string]: string } = {
+  "": "Other",
+};
+
 // Function to filter organization names based on the defined filter
 export const filterOrganizationName = (name: string) => {
-  if (name in filters) {
-    return filters[name] as string;
+  if (name in OranizationNamefilters) {
+    return OranizationNamefilters[name] as string;
   }
   return name.trim();
+};
+
+// Define the filters for organization categories
+export const filterOrganizationCatagory = (category: string) => {
+  if (category in OranizationCatagoryfilters) {
+    return OranizationCatagoryfilters[category];
+  }
+  return category.trim();
+};
+
+// Define the filters for organization topics
+const topics: { [key: string]: string } = {};
+export const filterOrganizationTopics = (topic: string) => {
+  if (topic in topics) {
+    return topics[topic];
+  }
+  return [topic.trim()];
 };
 
 // Function to check if two organizations can be merged (based on name or URL)
@@ -92,6 +113,18 @@ export const loadFilteredOrganizations = (years: number[]): Organization[] => {
     if (data && data.organizations) {
       data.organizations.forEach((element: Organization) => {
         const filteredName = filterOrganizationName(element.name);
+        const filteredCategory = filterOrganizationCatagory(element.category);
+        // Check if the topic has already been added
+        const topics: string[] = [];
+        for (const topic of element.topics) {
+          const filteredTopics = filterOrganizationTopics(topic);
+          for (const filteredTopic of filteredTopics) {
+            if (!topics.includes(filteredTopic)) {
+              topics.push(filteredTopic);
+            }
+          }
+        }
+        element.topics = topics;
 
         // Check if an organization with the same name or URL exists
         const existingOrganization = organizations.find((org) =>
@@ -105,6 +138,8 @@ export const loadFilteredOrganizations = (years: number[]): Organization[] => {
             description: element.description,
             url: element.url,
             image_url: element.image_url,
+            category: filteredCategory,
+            topics: element.topics,
           });
           seenNames.add(filteredName.toUpperCase());
         }

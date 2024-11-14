@@ -3,4 +3,6 @@ export type Organization = {
   description: string;
   url: string;
   image_url: string;
+  category: string;
+  topics: string[];
 };
