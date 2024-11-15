@@ -13,10 +13,14 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
   index,
   organization,
 }) => {
+  // Generate a unique id based on the organization name (lowercase, replace spaces with hyphens)
+  const orgId = `org-${organization.name.toLowerCase().replace(/\s+/g, "_")}`;
+
   return (
     <Card
+      id={orgId} // Assign the generated id to the card
       key={organization.name}
-      className="w-full flex flex-col hover:shadow-md justify-center items-center"
+      className="w-full flex flex-col hover:shadow-md justify-center items-center organization-card"
     >
       <div
         className="w-full flex items-center justify-center p-4"
@@ -32,8 +36,8 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       </div>
       <div className="w-full flex-grow flex-col text-center p-4">
         <div className="flex flex-col my-2">
-          <h2 className="text-lg font-semibold">
-            {index + 1}. {organization.name}
+          <h2 className="text-lg font-semibold" id="org-name">
+            {organization.name}
           </h2>
           <p className="mt-2 text-gray-700">{organization.description}</p>
         </div>

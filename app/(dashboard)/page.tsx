@@ -1,5 +1,4 @@
 import OrganizationCard from "@/components/OrgnizationCard";
-import { Card } from "@/components/ui/card";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
 import { Organization } from "@/types/types";
 
