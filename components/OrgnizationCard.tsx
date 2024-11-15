@@ -16,33 +16,73 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
   return (
     <Card
       key={organization.name}
-      className="w-full h-96 flex flex-col hover:shadow-md p-4 justify-center items-center"
+      className="w-full flex flex-col hover:shadow-md justify-center items-center"
     >
-      <div className="relative max-w-48 max-h-20 h-full flex items-center justify-center box-border">
-        <img
-          src={organization.image_url}
-          alt={organization.name}
-          className="max-h-20"
-        />
+      <div
+        className="w-full flex items-center justify-center p-4"
+        style={{ backgroundColor: organization.image_background_color }}
+      >
+        <div className="relative max-w-48  max-h-20 flex items-center justify-center box-border">
+          <img
+            src={organization.image_url}
+            alt={organization.name}
+            className="max-h-20"
+          />
+        </div>
       </div>
-
-      <div className="w-full flex-grow flex-col text-center">
-        <h2 className="text-lg font-semibold">
-          {index + 1}. {organization.name}
-        </h2>
-        <p className="mt-2 text-gray-700">{organization.description}</p>
-        <Badge className="bg-primary text-white" variant="outline">
-          {organization.category}
-        </Badge>
-        <div className="w-full">
-          {organization.topics.map((topic) => (
-            <Badge
-              key={topic}
-              className="bg-slate-200 text-muted-foreground hover:bg-slate-200"
-            >
-              {topic}
+      <div className="w-full flex-grow flex-col text-center p-4">
+        <div className="flex flex-col my-2">
+          <h2 className="text-lg font-semibold">
+            {index + 1}. {organization.name}
+          </h2>
+          <p className="mt-2 text-gray-700">{organization.description}</p>
+        </div>
+        <div className="w-full flex flex-col gap-1">
+          <div className="w-full">
+            <Badge className="bg-primary text-white" variant="outline">
+              {organization.category}
             </Badge>
-          ))}
+          </div>
+          <div className="w-full">
+            {organization.years_appeared.map((year) => (
+              <Badge
+                key={year}
+                className="bg-green-600 text-muted-foreground hover:bg-green-600 text-white"
+              >
+                {year}
+              </Badge>
+            ))}
+          </div>
+          <div className="w-full">
+            {organization.topics.slice(0, 5).map((topic) => (
+              <Badge
+                key={topic}
+                className="bg-slate-200 text-muted-foreground hover:bg-slate-200"
+              >
+                {topic}
+              </Badge>
+            ))}
+            {organization.topics.length > 5 && (
+              <Badge className="bg-slate-200 text-muted-foreground hover:bg-slate-200">
+                {`+${organization.topics.length - 5}`}
+              </Badge>
+            )}
+          </div>
+          <div className="w-full">
+            {organization.technologies.slice(0, 5).map((tech) => (
+              <Badge
+                key={tech}
+                className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white"
+              >
+                {tech}
+              </Badge>
+            ))}
+            {organization.technologies.length > 5 && (
+              <Badge className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white">
+                {`+${organization.technologies.length - 5}`}
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
     </Card>

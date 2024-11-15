@@ -6,7 +6,7 @@ import { Organization } from "@/types/types";
 // This function will be run during the build to statically generate the component
 const Home = async () => {
   // Load filtered organizations during the build process
-  const organizations: Organization[] = loadFilteredOrganizations([2024]);
+  const organizations: Organization[] = loadFilteredOrganizations();
 
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
