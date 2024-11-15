@@ -9,3 +9,8 @@ export type Organization = {
   years_appeared: number[];
   image_background_color: string;
 };
+
+export type Category = {
+  name: string;
+  count: number;
+};

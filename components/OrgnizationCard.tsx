@@ -10,7 +10,6 @@ interface OrganizationCardProps {
 }
 
 const OrganizationCard: React.FC<OrganizationCardProps> = ({
-  index,
   organization,
 }) => {
   // Generate a unique id based on the organization name (lowercase, replace spaces with hyphens)
@@ -20,7 +19,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
     <Card
       id={orgId} // Assign the generated id to the card
       key={organization.name}
-      className="w-full flex flex-col hover:shadow-md justify-center items-center organization-card"
+      className="w-full flex flex-col hover:shadow-md justify-center items-center organization-card overflow-hidden"
     >
       <div
         className="w-full flex items-center justify-center p-4"
@@ -43,7 +42,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
         </div>
         <div className="w-full flex flex-col gap-1">
           <div className="w-full">
-            <Badge className="bg-primary text-white" variant="outline">
+            <Badge className="bg-primary text-white category" variant="outline">
               {organization.category}
             </Badge>
           </div>
