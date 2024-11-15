@@ -5,4 +5,7 @@ export type Organization = {
   image_url: string;
   category: string;
   topics: string[];
+  technologies: string[];
+  years_appeared: number[];
+  image_background_color: string;
 };
