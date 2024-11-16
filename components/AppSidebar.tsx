@@ -7,9 +7,9 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import CategoryCheckbox from "./CategoryCheckbox";
+import YearCheckbox from "./YearCheckbox";
 
 export function AppSidebar() {
   return (
@@ -18,6 +18,14 @@ export function AppSidebar() {
         <h1>GSoC Organizations</h1>
       </SidebarHeader>
       <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Years</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <YearCheckbox />
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Categories</SidebarGroupLabel>
           <SidebarGroupContent>

@@ -50,7 +50,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
             {organization.years_appeared.map((year) => (
               <Badge
                 key={year}
-                className="bg-green-600 text-muted-foreground hover:bg-green-600 text-white"
+                className="bg-green-600 text-muted-foreground hover:bg-green-600 text-white year"
               >
                 {year}
               </Badge>

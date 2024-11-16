@@ -38,7 +38,10 @@ const Searchbar = () => {
 
     if (query.trim() === "") {
       // If query is empty, show all organization cards
-      orgCards.forEach((org) => (org.style.display = "block"));
+      orgCards.forEach((org) => {
+        if (org.style.display === "none") return;
+        org.style.display = "block";
+      });
     } else {
       // Normalize the query to ensure it matches the normalized `id` format
       const normalizedQuery = normalizeId(query);
@@ -50,6 +53,7 @@ const Searchbar = () => {
 
       // Show or hide cards based on matching IDs
       orgCards.forEach((org) => {
+        if (org.style.display === "none") return;
         if (matchingIds.includes(org.id)) {
           org.style.display = "block"; // Show matching cards
         } else {
