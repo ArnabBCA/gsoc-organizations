@@ -35,14 +35,17 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       </div>
       <div className="w-full flex-grow flex-col text-center p-4">
         <div className="flex flex-col my-2">
-          <h2 className="text-lg font-semibold" id="org-name">
+          <h2 className="text-lg font-semibold org-name">
             {organization.name}
           </h2>
           <p className="mt-2 text-gray-700">{organization.description}</p>
         </div>
         <div className="w-full flex flex-col gap-1">
           <div className="w-full">
-            <Badge className="bg-primary text-white category" variant="outline">
+            <Badge
+              className="bg-primary text-white org-category"
+              variant="outline"
+            >
               {organization.category}
             </Badge>
           </div>
@@ -50,7 +53,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
             {organization.years_appeared.map((year) => (
               <Badge
                 key={year}
-                className="bg-green-600 text-muted-foreground hover:bg-green-600 text-white year"
+                className="bg-green-600 text-muted-foreground hover:bg-green-600 text-white org-year"
               >
                 {year}
               </Badge>

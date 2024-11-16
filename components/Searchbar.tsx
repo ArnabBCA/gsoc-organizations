@@ -1,67 +1,76 @@
 import { Search } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import Fuse from "fuse.js";
 import { Input } from "./ui/input";
-
-// Utility function to normalize IDs (replace special characters with spaces)
-const normalizeId = (id: string) => {
-  return id
-    .replace(/[^\w\s]/g, " ") // Replace any non-alphanumeric characters with spaces
-    .replace(/\s+/g, " ") // Replace multiple spaces with a single space
-    .toLowerCase(); // Convert to lowercase for case-insensitive matching
-};
+import { useQueryParams } from "@/hooks/useQueryParams";
 
 const Searchbar = () => {
   const [query, setQuery] = useState<string>("");
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setQuery(input);
-  };
+  const { getAllParams } = useQueryParams();
 
   useEffect(() => {
-    // Get all the organization cards
-    const orgCards =
-      document.querySelectorAll<HTMLDivElement>(".organization-card");
+    const filterCards = () => {
+      const params = getAllParams();
+      const categoryFilters = params.category || [];
+      const yearFilters = params.years || [];
 
-    // Create a list of objects from the DOM, using only the normalized id
-    const orgData = Array.from(orgCards).map((org) => ({
-      id: org.id, // Only use the ID of the card for search
-      normalizedId: normalizeId(org.id), // Normalize the id for better search matching
-    }));
+      const cards = Array.from(document.querySelectorAll(".organization-card"));
 
-    // Configure Fuse.js for fuzzy search based on the normalized `id`
-    const fuse = new Fuse(orgData, {
-      keys: ["normalizedId"], // Only search by normalized `id`
-      threshold: 0.3, // Fuzzy match sensitivity
-    });
+      // If no filters or query, show all cards
+      if (!categoryFilters.length && !yearFilters.length && !query) {
+        cards.forEach((card) => card.classList.remove("hidden"));
+        return;
+      }
 
-    if (query.trim() === "") {
-      // If query is empty, show all organization cards
-      orgCards.forEach((org) => {
-        if (org.style.display === "none") return;
-        org.style.display = "block";
-      });
-    } else {
-      // Normalize the query to ensure it matches the normalized `id` format
-      const normalizedQuery = normalizeId(query);
+      // Step 1: Filter by year
+      let filteredCards = cards;
+      if (yearFilters.length) {
+        filteredCards = filteredCards.filter((card) => {
+          const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
+            (yearElem) => yearElem.textContent?.trim().toLowerCase() || ""
+          );
+          return yearFilters.some((filter: string) =>
+            orgYears.includes(filter.toLowerCase())
+          );
+        });
+      }
 
-      // Perform fuzzy search
-      const results = fuse.search(normalizedQuery);
+      // Step 2: Further filter by category within the filtered years
+      if (categoryFilters.length) {
+        filteredCards = filteredCards.filter((card) => {
+          const orgCategory =
+            card.querySelector(".org-category")?.textContent?.toLowerCase() ||
+            "";
+          return categoryFilters.some((filter: string) =>
+            orgCategory.includes(filter.toLowerCase())
+          );
+        });
+      }
 
-      const matchingIds = results.map((result) => result.item.id);
+      // Step 3: Further filter by query within the filtered category and year
+      if (query) {
+        filteredCards = filteredCards.filter((card) => {
+          const orgName =
+            card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
+          return orgName.includes(query.toLowerCase());
+        });
+      }
 
-      // Show or hide cards based on matching IDs
-      orgCards.forEach((org) => {
-        if (org.style.display === "none") return;
-        if (matchingIds.includes(org.id)) {
-          org.style.display = "block"; // Show matching cards
+      // Step 4: Show matched cards and hide others
+      cards.forEach((card) => {
+        if (filteredCards.includes(card)) {
+          card.classList.remove("hidden");
         } else {
-          org.style.display = "none"; // Hide non-matching cards
+          card.classList.add("hidden");
         }
       });
-    }
-  }, [query]); // Run whenever the query changes
+    };
+
+    filterCards();
+  }, [query, getAllParams]); // Run when query or params change
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
 
   return (
     <div className="relative max-w-lg w-full">

@@ -2,19 +2,23 @@ import { useState, useCallback } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 export const useQueryParams = (
-  paramKey: string,
+  paramKey?: string, // Make paramKey optional
   defaultValues: string[] = []
 ) => {
   const searchParams = useSearchParams();
   const pathName = usePathname();
 
-  const queryParam = searchParams.get(paramKey);
+  // Get the initial values for the specified paramKey or use defaults
+  const queryParam = paramKey ? searchParams.get(paramKey) : null;
   const initialValues = queryParam ? queryParam.split(",") : defaultValues;
 
   const [selectedValues, setSelectedValues] = useState<string[]>(initialValues);
 
+  // Update the specified paramKey values in the query string
   const handleChange = useCallback(
     (value: string, checked: boolean) => {
+      if (!paramKey) return; // No updates if no paramKey is provided
+
       let updatedValues;
       if (checked) {
         updatedValues = [...selectedValues, value];
@@ -51,5 +55,18 @@ export const useQueryParams = (
     [selectedValues, pathName, searchParams, paramKey]
   );
 
-  return { selectedValues, handleChange };
+  // Fetch all query parameters
+  const getAllParams = useCallback(() => {
+    const params: Record<string, string[]> = {};
+    searchParams.forEach((value, key) => {
+      params[key] = value.split(",");
+    });
+    return params;
+  }, [searchParams]);
+
+  return {
+    selectedValues, // Returns selected values for the specified paramKey
+    handleChange, // Updates the specified paramKey in the query string
+    getAllParams, // Fetches all query parameters
+  };
 };
