@@ -1,87 +1,61 @@
-import { Search } from "lucide-react";
-import React, { useState, useEffect } from "react";
-import { Input } from "./ui/input";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useQueryParams } from "@/hooks/useQueryParams";
+import SearchInput from "./SearchInput";
 
 const Searchbar = () => {
   const [query, setQuery] = useState<string>("");
   const { getAllParams } = useQueryParams();
+  // Ref to cache card elements and their attributes
+  const cardsRef = useRef<HTMLDivElement[]>([]);
+
+  const filterCards = useCallback(() => {
+    const params = getAllParams();
+    const categoryFilters = params.category || [];
+    const yearFilters = params.years || [];
+    const queryLower = query.toLowerCase();
+
+    cardsRef.current.forEach((card) => {
+      const orgName =
+        card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
+      const orgCategory =
+        card.querySelector(".org-category")?.textContent?.toLowerCase() || "";
+      const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
+        (yearElem) => yearElem.textContent?.trim().toLowerCase() || ""
+      );
+
+      const matchesQuery = queryLower ? orgName.includes(queryLower) : true;
+      const matchesCategory = categoryFilters.length
+        ? categoryFilters.some((filter: string) =>
+            orgCategory.includes(filter.toLowerCase())
+          )
+        : true;
+      const matchesYear = yearFilters.length
+        ? yearFilters.some((filter: string) =>
+            orgYears.includes(filter.toLowerCase())
+          )
+        : true;
+
+      if (matchesQuery && matchesCategory && matchesYear) {
+        card.classList.remove("hidden");
+        card.removeAttribute("style");
+      } else {
+        card.classList.add("hidden");
+      }
+    });
+  }, [query, getAllParams]);
 
   useEffect(() => {
-    const filterCards = () => {
-      const params = getAllParams();
-      const categoryFilters = params.category || [];
-      const yearFilters = params.years || [];
-
-      const cards = Array.from(document.querySelectorAll(".organization-card"));
-
-      // If no filters or query, show all cards
-      if (!categoryFilters.length && !yearFilters.length && !query) {
-        cards.forEach((card) => card.classList.remove("hidden"));
-        return;
-      }
-
-      // Step 1: Filter by year
-      let filteredCards = cards;
-      if (yearFilters.length) {
-        filteredCards = filteredCards.filter((card) => {
-          const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
-            (yearElem) => yearElem.textContent?.trim().toLowerCase() || ""
-          );
-          return yearFilters.some((filter: string) =>
-            orgYears.includes(filter.toLowerCase())
-          );
-        });
-      }
-
-      // Step 2: Further filter by category within the filtered years
-      if (categoryFilters.length) {
-        filteredCards = filteredCards.filter((card) => {
-          const orgCategory =
-            card.querySelector(".org-category")?.textContent?.toLowerCase() ||
-            "";
-          return categoryFilters.some((filter: string) =>
-            orgCategory.includes(filter.toLowerCase())
-          );
-        });
-      }
-
-      // Step 3: Further filter by query within the filtered category and year
-      if (query) {
-        filteredCards = filteredCards.filter((card) => {
-          const orgName =
-            card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
-          return orgName.includes(query.toLowerCase());
-        });
-      }
-
-      // Step 4: Show matched cards and hide others
-      cards.forEach((card) => {
-        if (filteredCards.includes(card)) {
-          card.classList.remove("hidden");
-        } else {
-          card.classList.add("hidden");
-        }
-      });
-    };
-
+    cardsRef.current = Array.from(
+      document.querySelectorAll(".organization-card")
+    );
     filterCards();
-  }, [query, getAllParams]); // Run when query or params change
+  }, [query, getAllParams, filterCards]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  return (
-    <div className="relative max-w-lg w-full">
-      <Search className="h-4 w-4 top-3 absolute right-3 text-slate-600 dark:text-slate-200" />
-      <Input
-        placeholder="Search Organizations"
-        value={query}
-        onChange={handleSearchChange}
-      />
-    </div>
-  );
+  return <SearchInput query={query} handleSearchChange={handleSearchChange} />;
 };
 
 export default Searchbar;

@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "./ui/card";
 import { Organization } from "@/types/types";
 import { Badge } from "./ui/badge";
+import Image from "next/image";
 
 // Update the interface to expect `organization` and `index`
 interface OrganizationCardProps {
@@ -20,20 +21,23 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       id={orgId} // Assign the generated id to the card
       key={organization.name}
       className="w-full flex flex-col hover:shadow-md justify-center items-center organization-card overflow-hidden"
+      style={{ display: "none" }}
     >
       <div
-        className="w-full flex items-center justify-center p-4"
+        className="w-full h-28 flex items-center justify-center p-4"
         style={{ backgroundColor: organization.image_background_color }}
       >
-        <div className="relative max-w-48  max-h-20 flex items-center justify-center box-border">
-          <img
+        <div className="relative w-48 h-20 flex items-center justify-center box-border">
+          <Image
             src={organization.image_url}
             alt={organization.name}
-            className="max-h-20"
+            fill
+            sizes="150px"
+            className="object-contain"
           />
         </div>
       </div>
-      <div className="w-full flex-grow flex-col text-center p-4">
+      <div className="w-full flex-grow flex-col text-center px-4 pb-4">
         <div className="flex flex-col my-2">
           <h2 className="text-lg font-semibold org-name">
             {organization.name}
