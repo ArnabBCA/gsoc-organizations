@@ -65,6 +65,16 @@ const technologyFilters: Record<string, string[]> = {
   nodejs: ["node.js"],
 };
 
+// Utility function to sanitize organization names
+function sanitizeOrgName(orgName: string): string {
+  return orgName
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
+    .replace(/-/g, " ") // Replace hyphens with spaces
+    .replace(/\s+/g, "-") // Replace spaces with a single hyphen
+    .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
+}
+
 // Function to filter organization names
 const filterOrganizationName = (name: string): string => {
   return organizationNameFilters[name] ?? name.trim();
@@ -135,6 +145,7 @@ export const loadFilteredOrganizations = (
         if (!existingOrganization) {
           organizations.push({
             name: filteredName,
+            nav_url: sanitizeOrgName(filteredName),
             description: element.description,
             url: element.url,
             image_url: element.image_url,

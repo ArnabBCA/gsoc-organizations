@@ -1,5 +1,6 @@
 export type Organization = {
   name: string;
+  nav_url: string;
   description: string;
   url: string;
   image_url: string;
