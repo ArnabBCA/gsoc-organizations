@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 export const useQueryParams = (
@@ -13,6 +13,11 @@ export const useQueryParams = (
   const initialValues = queryParam ? queryParam.split(",") : defaultValues;
 
   const [selectedValues, setSelectedValues] = useState<string[]>(initialValues);
+
+  // Sync state with URL parameters on changes
+  useEffect(() => {
+    setSelectedValues(initialValues);
+  }, []);
 
   // Update the specified paramKey values in the query string
   const handleChange = useCallback(

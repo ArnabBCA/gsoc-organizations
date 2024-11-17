@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/sidebar";
 import CategoryCheckbox from "./CategoryCheckbox";
 import YearCheckbox from "./YearCheckbox";
-import { Suspense } from "react";
-import { Skeleton } from "./ui/skeleton";
 
 export function AppSidebar() {
   return (
@@ -24,9 +22,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Years</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <Suspense fallback={<Skeleton className="h-4 w-[200px]" />}>
-                <YearCheckbox />
-              </Suspense>
+              <YearCheckbox />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -34,9 +30,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Categories</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <Suspense fallback={<Skeleton className="h-4 w-[200px]" />}>
-                <CategoryCheckbox />
-              </Suspense>
+              <CategoryCheckbox />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

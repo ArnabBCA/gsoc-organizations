@@ -16,10 +16,12 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
   return (
     <Card
       key={organization.name}
-      className="w-full flex h-full flex-col hover:shadow-md justify-center items-center organization-card overflow-hidden"
-      style={{ display: "none" }}
+      className="w-full flex h-full flex-col hover:shadow-md items-center organization-card overflow-hidden"
     >
-      <Link href={`/organization/${organization.nav_url}`}>
+      <Link
+        href={`/organization/${organization.nav_url}`}
+        className="w-full h-full flex items-center justify-center flex-col"
+      >
         <div
           className="w-full h-28 flex items-center justify-center p-4"
           style={{ backgroundColor: organization.image_background_color }}
@@ -30,7 +32,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
               alt={organization.name}
               fill
               sizes="150px"
-              className="object-contain"
+              className="object-contain max-h-20"
             />
           </div>
         </div>

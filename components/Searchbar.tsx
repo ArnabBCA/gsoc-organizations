@@ -37,7 +37,6 @@ const Searchbar = () => {
 
       if (matchesQuery && matchesCategory && matchesYear) {
         card.classList.remove("hidden");
-        card.removeAttribute("style");
       } else {
         card.classList.add("hidden");
       }
