@@ -16,7 +16,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
   return (
     <Card
       key={organization.name}
-      className="w-full flex h-full flex-col hover:shadow-md items-center organization-card overflow-hidden"
+      className="w-full flex h-full flex-col hover:shadow-md items-center organization-card overflow-hidden hiding"
     >
       <Link
         href={`/organization/${organization.nav_url}`}

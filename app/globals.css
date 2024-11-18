@@ -81,3 +81,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.hiding {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 0;
+}

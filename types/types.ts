@@ -8,6 +8,8 @@ export type Organization = {
   topics: string[];
   technologies: string[];
   years_appeared: number[];
+  num_projects: number;
+  projects_by_year: { [year: string]: number };
   image_background_color: string;
 };
 

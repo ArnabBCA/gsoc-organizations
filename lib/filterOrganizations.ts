@@ -154,6 +154,8 @@ export const loadFilteredOrganizations = (
             technologies: filteredTechnologies,
             years_appeared: [year],
             image_background_color: element.image_background_color,
+            num_projects: element.num_projects,
+            projects_by_year: { [year]: element.num_projects },
           });
         } else {
           existingOrganization.years_appeared.push(year);
@@ -170,6 +172,15 @@ export const loadFilteredOrganizations = (
           existingOrganization.image_url = element.image_url;
           existingOrganization.image_background_color =
             element.image_background_color;
+
+          // Update num_projects with the new year and project count
+          if (!existingOrganization.projects_by_year[year.toString()]) {
+            existingOrganization.projects_by_year[year.toString()] =
+              element.num_projects;
+          } else {
+            existingOrganization.projects_by_year[year.toString()] +=
+              element.num_projects;
+          }
         }
       });
     }
