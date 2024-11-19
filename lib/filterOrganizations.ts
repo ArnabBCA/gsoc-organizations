@@ -11,7 +11,7 @@ const organizationNameFilters: Record<string, string> = {
   "Berkman Klein Center for Internet & Society at Harvard University":
     "Berkman Klein Center for Internet and Society",
   "CiviCRM LLC": "CiviCRM",
-  Ceph: "Ceph Foundation",
+  "Ceph Foundation": "Ceph",
   "Debian Project": "Debian",
   "Digital Impact Alliance": "Digital Impact Alliance (DIAL) at UN Foundation",
   "FOSSology Project": "FOSSology",
