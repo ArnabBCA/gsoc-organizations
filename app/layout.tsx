@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
 import { Suspense } from "react";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,10 +36,7 @@ export default function RootLayout({
             </div>
           }
         >
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="h-full w-full">{children}</main>
-          </SidebarProvider>
+          <main className="h-full w-full">{children}</main>
         </Suspense>
       </body>
     </html>

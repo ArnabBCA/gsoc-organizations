@@ -1,3 +1,4 @@
+import OrganizationCard from "@/components/OrgnizationCard";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
 import { Organization } from "@/types/types";
 import fs from "fs";
@@ -5,16 +6,6 @@ import path from "path";
 
 type Params = Promise<{ orgname: string }>;
 
-// Utility to save projects_by_year data to the public folder
-/*function saveProjectsByYear(org: Organization) {
-  const filePath = path.join(process.cwd(), "public", `${org.nav_url}.json`);
-  const dataToSave = {
-    projects_by_year: org.projects_by_year,
-  };
-
-  fs.writeFileSync(filePath, JSON.stringify(dataToSave, null, 2), "utf8");
-}*/
-// This function generates the paths for all organizations at build time
 export async function generateStaticParams() {
   const organizations: Organization[] = loadFilteredOrganizations();
 
@@ -68,9 +59,6 @@ export default async function Page(props: { params: Params }) {
   }
 
   return (
-    <div>
-      <h1>{org.name}</h1>
-      <p>{org.description}</p>
-    </div>
+    <OrganizationCard key={org.name} organization={org} isLandingPage={false} />
   );
 }

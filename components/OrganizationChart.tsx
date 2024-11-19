@@ -64,10 +64,13 @@ export function OrganizationChart() {
   } satisfies ChartConfig;
 
   return (
-    <Card>
+    <Card className="w-full max-w-xl">
       <CardHeader>
-        <CardTitle>Line Chart - Dots</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Number of pojects per year</CardTitle>
+        <CardDescription className="min-h-5">
+          {chartData[0] &&
+            chartData[0].year + "-" + chartData[chartData.length - 1].year}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -76,6 +79,7 @@ export function OrganizationChart() {
             accessibilityLayer
             data={chartData}
             margin={{
+              top: 18,
               left: 18,
               right: 18,
             }}
@@ -104,14 +108,6 @@ export function OrganizationChart() {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

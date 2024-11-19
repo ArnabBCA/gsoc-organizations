@@ -4,19 +4,25 @@ import { Organization } from "@/types/types";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface OrganizationCardProps {
-  index: number;
+  index?: number;
+  isLandingPage: boolean;
   organization: Organization;
 }
 
 const OrganizationCard: React.FC<OrganizationCardProps> = ({
+  isLandingPage,
   organization,
 }) => {
   return (
     <Card
       key={organization.name}
-      className="w-full flex h-full flex-col hover:shadow-md items-center organization-card overflow-hidden hiding"
+      className={cn(
+        isLandingPage && "hover:shadow-md",
+        "w-full flex h-full flex-col items-center organization-card overflow-hidden hiding"
+      )}
     >
       <Link
         href={`/organization/${organization.nav_url}`}

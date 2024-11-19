@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import SearchInput from "./SearchInput";
