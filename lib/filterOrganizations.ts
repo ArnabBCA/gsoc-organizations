@@ -4,24 +4,30 @@ import path from "path";
 
 // Filters for organization names
 const organizationNameFilters: Record<string, string> = {
+  "afl++": "AFLplusplus",
   "The Apertium Project": "Apertium",
   "AOSSIE - Australian Open Source Software Innovation and Education": "AOSSIE",
   "Berkman Center for Internet and Society":
     "Berkman Klein Center for Internet and Society",
   "Berkman Klein Center for Internet & Society at Harvard University":
     "Berkman Klein Center for Internet and Society",
+  Catrobat: "International Catrobat Association",
   "CiviCRM LLC": "CiviCRM",
   "Ceph Foundation": "Ceph",
+  dbpediaspotlight: "dbpedia",
   "Debian Project": "Debian",
   "Digital Impact Alliance": "Digital Impact Alliance (DIAL) at UN Foundation",
   "FOSSology Project": "FOSSology",
   "GENIVI Development Platform": "GENIVI Alliance",
   KDE: "KDE Community",
   "Liquid Galaxy Project": "Liquid Galaxy project",
+  "omegaUp.com": "OmegaUp",
   "OSGeo - The Open Source Geospatial Foundation": "OSGeo",
   "GFOSS - Open Technologies Alliance": "Open Technologies Alliance - GFOSS",
+  openSUSE: "openSUSE Project",
   "Open Technologies Aliance - GFOSS": "Open Technologies Alliance - GFOSS",
   "Open Roberta Lab": "Open Roberta",
+  "mlpack: a scalable C++ machine learning library": "mlpack",
   "Zulip Open Source Project": "Zulip",
   "Xi Editor Project": "Xi Editor",
   "VideoLAN / VLMC Project": "VideoLAN",
