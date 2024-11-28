@@ -64,7 +64,7 @@ export function OrganizationChart() {
   } satisfies ChartConfig;
 
   return (
-    <Card className="min-w-[36rem]">
+    <Card className="max-w-[36rem] w-full">
       <CardHeader>
         <CardTitle>Number of pojects per year</CardTitle>
         <CardDescription className="min-h-5">
@@ -72,7 +72,7 @@ export function OrganizationChart() {
             chartData[0].year + "-" + chartData[chartData.length - 1].year}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 pb-4">
         <ChartContainer config={chartConfig}>
           <LineChart
             key={JSON.stringify(chartData)} // Ensure re-rendering with new data
