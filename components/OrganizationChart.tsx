@@ -31,13 +31,15 @@ export function OrganizationChart() {
       if (!response.ok) throw new Error("Failed to fetch chart data");
       const data = await response.json();
 
-      // Transform the 'projects_by_year' data into the format for the chart
-      const transformedData = Object.entries(data.projects_by_year).map(
-        ([year, projects]) => ({
-          year,
-          projects: Number(projects),
-        })
-      );
+      const years: number[] = [
+        2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+      ];
+
+      // Map over the hardcoded years and ensure each year has a value (default to 0)
+      const transformedData = years.map((year) => ({
+        year: year.toString(),
+        projects: Number(data.projects_by_year?.[year] || 0),
+      }));
 
       setChartData(transformedData);
     } catch (error) {
@@ -62,7 +64,7 @@ export function OrganizationChart() {
   } satisfies ChartConfig;
 
   return (
-    <Card className="w-full max-w-xl">
+    <Card className="min-w-[36rem]">
       <CardHeader>
         <CardTitle>Number of pojects per year</CardTitle>
         <CardDescription className="min-h-5">

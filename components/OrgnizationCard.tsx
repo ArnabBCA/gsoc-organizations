@@ -5,7 +5,6 @@ import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { categories } from "@/catagory/data";
 
 interface OrganizationCardProps {
   index?: number;
@@ -31,7 +30,12 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       >
         <div
           className="w-full h-28 flex items-center justify-center p-4"
-          style={{ backgroundColor: organization.logo_bg_color }}
+          style={{
+            backgroundColor:
+              organization.logo_bg_color != null
+                ? `#${organization.logo_bg_color}`
+                : "",
+          }}
         >
           <div className="relative w-48 h-20 flex items-center justify-center box-border">
             <Image

@@ -71,56 +71,65 @@ const technologyFilters: Record<string, string[]> = {
   nodejs: ["node.js"],
 };
 
-// Utility function to sanitize organization names
-function sanitizeOrgName(orgName: string): string {
-  return orgName
+// Utility function to sanitize strings
+const sanitize = (str: string): string =>
+  str
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
-    .replace(/-/g, " ") // Replace hyphens with spaces
-    .replace(/\s+/g, "-") // Replace spaces with a single hyphen
-    .replace(/^-+|-+$/g, ""); // Trim leading/trailing hyphens
-}
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
-// Function to filter organization names
-const filterOrganizationName = (name: string): string => {
-  return organizationNameFilters[name] ?? name.trim();
+// Utility function to filter items with fallback
+const filterItem = <T>(
+  filters: Record<string, T>,
+  item: string,
+  fallback: T
+): T => filters[item] ?? fallback;
+
+// Function to normalize URLs for comparison
+const normalizeUrl = (url: string): { host: string; path: string } => {
+  const { host, pathname } = new URL(url);
+  return { host: host.replace(/^www\./, ""), path: pathname };
 };
 
-// Function to filter organization categories
-const filterOrganizationCategories = (category: string): string[] => {
-  return organizationCategoriesFilters[category] || [category.trim()];
-};
-
-// Function to filter organization topics
-const filterOrganizationTopics = (topic: string): string[] => {
-  return [topic.trim()];
-};
-
-// Function to filter organization technologies
-const filterOrganizationTechnologies = (tech: string): string[] => {
-  return technologyFilters[tech] ?? [tech.trim()];
-};
-
-// Function to check if two organizations can be merged (based on name or URL)
+// Checks if two organizations can be merged
 const isMergePossible = (
   org1: { name: string; website_url: string },
   org2: { name: string; website_url: string }
 ): boolean => {
-  const normalizeUrlHost = (host: string): string =>
-    host.startsWith("www.") ? host.slice(4) : host;
-
   if (org1.name.toUpperCase() === org2.name.toUpperCase()) return true;
-
-  const url1 = new URL(org1.website_url);
-  const url2 = new URL(org2.website_url);
-
-  return (
-    normalizeUrlHost(url1.host) === normalizeUrlHost(url2.host) &&
-    url1.pathname === url2.pathname
-  );
+  const url1 = normalizeUrl(org1.website_url);
+  const url2 = normalizeUrl(org2.website_url);
+  return url1.host === url2.host && url1.path === url2.path;
 };
 
-// Function to load and filter organizations from JSON files
+// Merges organization data
+const mergeOrganizations = (
+  existingOrg: Organization,
+  newOrg: Organization,
+  year: number,
+  numProjects: number
+) => {
+  existingOrg.years_appeared.push(year);
+  existingOrg.topic_tags = Array.from(
+    new Set(existingOrg.topic_tags.concat(newOrg.topic_tags))
+  );
+  existingOrg.tech_tags = Array.from(
+    new Set(existingOrg.tech_tags.concat(newOrg.tech_tags))
+  );
+  existingOrg.projects = existingOrg.projects.concat(newOrg.projects);
+  existingOrg.projects_by_year[year] =
+    (existingOrg.projects_by_year[year] || 0) + numProjects;
+  Object.assign(existingOrg, {
+    categories: newOrg.categories,
+    tagline: newOrg.tagline,
+    logo_url: newOrg.logo_url,
+    logo_bg_color: newOrg.logo_bg_color,
+  });
+};
+
+// Loads and filters organizations from JSON files
 export const loadFilteredOrganizations = (
   years: number[] = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
 ): Organization[] => {
@@ -131,79 +140,64 @@ export const loadFilteredOrganizations = (
     if (!fs.existsSync(filePath)) return;
 
     try {
-      const fileData = fs.readFileSync(filePath, "utf-8");
-      const data = JSON.parse(fileData);
+      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-      if (data?.organizations) {
-        data.organizations.forEach((element: Organization) => {
-          // Ensure default values
-          const categories = element.categories || [];
-          const topics = element.topic_tags || [];
-          const technologies = element.tech_tags || [];
-          const numProjects = element.projects?.length || 0;
-
-          const filteredName = filterOrganizationName(element.name);
-          const filteredCategories = Array.from(
-            new Set(categories.flatMap(filterOrganizationCategories))
-          );
-          const filteredTopics = Array.from(
-            new Set(topics.flatMap(filterOrganizationTopics))
-          );
-          const filteredTechnologies = Array.from(
-            new Set(technologies.flatMap(filterOrganizationTechnologies))
-          );
-
-          const existingOrganization = organizations.find((org) =>
-            isMergePossible(org, {
-              name: filteredName,
-              website_url: element.website_url,
-            })
-          );
-
-          if (!existingOrganization) {
-            organizations.push({
-              name: filteredName,
-              nav_url: sanitizeOrgName(filteredName),
-              tagline: element.tagline || "",
-              website_url: element.website_url || "",
-              logo_url: element.logo_url || "",
-              categories: filteredCategories,
-              topic_tags: filteredTopics,
-              tech_tags: filteredTechnologies,
-              years_appeared: [year],
-              logo_bg_color: element.logo_bg_color || "",
-              num_projects: numProjects,
-              projects_by_year: { [year]: numProjects },
-              projects: element.projects || [],
-            });
-          } else {
-            // Avoid duplicate years
-            if (!existingOrganization.years_appeared.includes(year)) {
-              existingOrganization.years_appeared.push(year);
-            }
-            existingOrganization.topic_tags = Array.from(
-              new Set(existingOrganization.topic_tags.concat(filteredTopics))
-            );
-            existingOrganization.tech_tags = Array.from(
-              new Set(
-                existingOrganization.tech_tags.concat(filteredTechnologies)
+      (data.organizations || []).forEach((org: Organization) => {
+        const filteredName = filterItem(
+          organizationNameFilters,
+          org.name,
+          org.name.trim()
+        );
+        const sanitizedOrg: Organization = {
+          name: filteredName,
+          nav_url: sanitize(filteredName),
+          tagline: org.tagline || "",
+          website_url: org.website_url || "",
+          logo_url: org.logo_url || "",
+          categories: Array.from(
+            new Set(
+              (org.categories || []).flatMap((cat) =>
+                filterItem(organizationCategoriesFilters, cat, [cat.trim()])
               )
-            );
-            existingOrganization.projects =
-              existingOrganization.projects.concat(element.projects || []);
-            existingOrganization.categories = filteredCategories;
-            existingOrganization.tagline = element.tagline || "";
-            existingOrganization.logo_url = element.logo_url || "";
-            existingOrganization.logo_bg_color = element.logo_bg_color || "";
+            )
+          ),
+          topic_tags: Array.from(
+            new Set((org.topic_tags || []).map((topic) => topic.trim()))
+          ),
+          tech_tags: Array.from(
+            new Set(
+              (org.tech_tags || []).flatMap((tech) =>
+                filterItem(technologyFilters, tech, [tech.trim()])
+              )
+            )
+          ),
+          years_appeared: [year],
+          logo_bg_color: org.logo_bg_color || "",
+          num_projects: org.projects?.length || 0,
+          projects_by_year: { [year]: org.projects?.length || 0 },
+          projects: org.projects || [],
+        };
 
-            // Update num_projects
-            existingOrganization.projects_by_year[year] =
-              (existingOrganization.projects_by_year[year] || 0) + numProjects;
-          }
-        });
-      }
-    } catch (error: any) {
-      console.error(`Failed to process ${filePath}:`, error.message);
+        const existingOrg = organizations.find((o) =>
+          isMergePossible(o, {
+            name: filteredName,
+            website_url: org.website_url,
+          })
+        );
+
+        if (existingOrg) {
+          mergeOrganizations(
+            existingOrg,
+            sanitizedOrg,
+            year,
+            org.projects?.length || 0
+          );
+        } else {
+          organizations.push(sanitizedOrg);
+        }
+      });
+    } catch (error) {
+      console.error(`Failed to process ${filePath}:`, error);
     }
   });
 
