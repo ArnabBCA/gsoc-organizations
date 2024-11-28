@@ -1,16 +1,17 @@
 export type Organization = {
   name: string;
   nav_url: string;
-  description: string;
-  url: string;
-  image_url: string;
-  category: string;
-  topics: string[];
-  technologies: string[];
+  tagline: string;
+  website_url: string;
+  logo_url: string;
+  logo_bg_color: string;
+  categories: string[];
+  topic_tags: string[];
+  tech_tags: string[];
   years_appeared: number[];
   num_projects: number;
+  projects: any[];
   projects_by_year: { [year: string]: number };
-  image_background_color: string;
 };
 
 export type Category = {

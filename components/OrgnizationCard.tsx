@@ -5,6 +5,7 @@ import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { categories } from "@/catagory/data";
 
 interface OrganizationCardProps {
   index?: number;
@@ -30,11 +31,11 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       >
         <div
           className="w-full h-28 flex items-center justify-center p-4"
-          style={{ backgroundColor: organization.image_background_color }}
+          style={{ backgroundColor: organization.logo_bg_color }}
         >
           <div className="relative w-48 h-20 flex items-center justify-center box-border">
             <Image
-              src={organization.image_url}
+              src={organization.logo_url}
               alt={organization.name}
               fill
               sizes="150px"
@@ -47,16 +48,19 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
             <h2 className="text-lg font-semibold org-name">
               {organization.name}
             </h2>
-            <p className="mt-2 text-gray-700">{organization.description}</p>
+            <p className="mt-2 text-gray-700">{organization.tagline}</p>
           </div>
           <div className="w-full flex flex-col gap-1">
             <div className="w-full">
-              <Badge
-                className="bg-primary text-white org-category"
-                variant="outline"
-              >
-                {organization.category}
-              </Badge>
+              {organization.categories.map((category) => (
+                <Badge
+                  key={category}
+                  className="bg-primary text-white org-category"
+                  variant="outline"
+                >
+                  {category}
+                </Badge>
+              ))}
             </div>
             <div className="w-full">
               {organization.years_appeared.map((year) => (
@@ -69,7 +73,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
               ))}
             </div>
             <div className="w-full">
-              {organization.topics.slice(0, 5).map((topic) => (
+              {organization.topic_tags.slice(0, 5).map((topic) => (
                 <Badge
                   key={topic}
                   className="bg-slate-200 text-muted-foreground hover:bg-slate-200"
@@ -77,14 +81,14 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
                   {topic}
                 </Badge>
               ))}
-              {organization.topics.length > 5 && (
+              {organization.topic_tags.length > 5 && (
                 <Badge className="bg-slate-200 text-muted-foreground hover:bg-slate-200">
-                  {`+${organization.topics.length - 5}`}
+                  {`+${organization.topic_tags.length - 5}`}
                 </Badge>
               )}
             </div>
             <div className="w-full">
-              {organization.technologies.slice(0, 5).map((tech) => (
+              {organization.tech_tags.slice(0, 5).map((tech) => (
                 <Badge
                   key={tech}
                   className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white"
@@ -92,9 +96,9 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
                   {tech}
                 </Badge>
               ))}
-              {organization.technologies.length > 5 && (
+              {organization.tech_tags.length > 5 && (
                 <Badge className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white">
-                  {`+${organization.technologies.length - 5}`}
+                  {`+${organization.tech_tags.length - 5}`}
                 </Badge>
               )}
             </div>
