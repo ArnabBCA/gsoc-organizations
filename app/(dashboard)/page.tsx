@@ -10,6 +10,21 @@ const Home = async () => {
   // Load filtered organizations during the build process
   const organizations: Organization[] = loadFilteredOrganizations();
 
+  /*let map = new Map();
+
+  organizations.forEach((org) => {
+    org.topic_tags.forEach((tag) => {
+      if (map.has(tag)) {
+        map.set(tag, map.get(tag) + 1);
+      } else {
+        map.set(tag, 1);
+      }
+    });
+  });
+
+  // Convert the map to an array and log the result
+  console.log(Array.from(map.entries()));*/
+
   return (
     <SidebarProvider>
       <AppSidebar />
