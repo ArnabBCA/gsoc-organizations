@@ -14,6 +14,7 @@ const YearNavbar = ({ projectYears }: { projectYears: number[] }) => {
 
       if (matchesYear) {
         project.classList.remove("hidden");
+        project.removeAttribute("style");
       } else {
         project.classList.add("hidden");
       }

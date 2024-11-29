@@ -21,6 +21,7 @@ const PastProjects = ({ projects }: { projects: any[] }) => {
             <Card
               key={index}
               className={`p-4 flex flex-col justify-between gap-4 project-year ${project.program_slug}`}
+              style={{ display: "none" }}
             >
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col">
