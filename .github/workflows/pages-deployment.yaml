@@ -20,7 +20,7 @@ jobs:
 
       # Install dependencies
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       # Build the project (generates static site in '.next' folder or '.vercel/output/static')
       - name: Build the Project
