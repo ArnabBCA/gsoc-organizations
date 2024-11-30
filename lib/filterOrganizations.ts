@@ -1,25 +1,6 @@
 import { Organization } from "@/types/types";
-import orgs2024 from "../orgs/2024.json";
-import orgs2023 from "../orgs/2023.json";
-import orgs2022 from "../orgs/2022.json";
-import orgs2021 from "../orgs/2021.json";
-import orgs2020 from "../orgs/2020.json";
-import orgs2019 from "../orgs/2019.json";
-import orgs2018 from "../orgs/2018.json";
-import orgs2017 from "../orgs/2017.json";
-import orgs2016 from "../orgs/2016.json";
-
-const allOrgData = {
-  2024: orgs2024,
-  2023: orgs2023,
-  2022: orgs2022,
-  2021: orgs2021,
-  2020: orgs2020,
-  2019: orgs2019,
-  2018: orgs2018,
-  2017: orgs2017,
-  2016: orgs2016,
-};
+import fs from "fs";
+import path from "path";
 
 // Filters for organization names
 const organizationNameFilters: Record<string, string> = {
@@ -135,7 +116,7 @@ const mergeOrganizations = (
   existingOrg.projects = existingOrg.projects.concat(newOrg.projects);
   existingOrg.projects_by_year[year] =
     (existingOrg.projects_by_year[year] || 0) + numProjects;
-
+  
   Object.assign(existingOrg, {
     categories: newOrg.categories,
     topic_tags: Array.from(
@@ -154,8 +135,7 @@ const mergeOrganizations = (
     contact_links:
       newOrg.contact_links.map((link) => ({
         name: link.name.replace(/\s+/g, "").toLowerCase(),
-        value:
-          "value" in link ? link.value : (link as { url: string }).url || "",
+        value: link.value || link.url || "",
       })) || [],
   });
 };
@@ -167,76 +147,80 @@ export const loadFilteredOrganizations = (
   const organizations: Organization[] = [];
 
   years.forEach((year) => {
-    const data = allOrgData[year as keyof typeof allOrgData];
-    if (!data) return;
-    (data.organizations || []).forEach((org) => {
-      const filteredName = filterItem(
-        organizationNameFilters,
-        org.name,
-        org.name.trim()
-      );
-      const sanitizedOrg: Organization = {
-        name: filteredName,
-        nav_url: sanitize(filteredName),
-        tagline: org.tagline || "",
-        website_url: org.website_url || "",
-        logo_url: org.logo_url || "",
-        categories: Array.from(
-          new Set(
-            (org.categories || []).flatMap((cat) =>
-              filterItem(organizationCategoriesFilters, cat, [cat.trim()])
-            )
-          )
-        ),
-        topic_tags: Array.from(
-          new Set((org.topic_tags || []).map((topic) => topic.trim()))
-        ).sort((a, b) => a.length - b.length),
-        tech_tags: Array.from(
-          new Set(
-            (org.tech_tags || []).flatMap((tech) =>
-              filterItem(technologyFilters, tech, [tech.trim()])
-            )
-          )
-        ).sort((a, b) => a.length - b.length),
-        years_appeared: [year],
-        logo_bg_color: org.logo_bg_color || "",
-        num_projects: org.projects?.length || 0,
-        projects_by_year: { [year]: org.projects?.length || 0 },
-        projects: org.projects || [],
-        contact_links:
-          org.contact_links.map((link) => ({
-            name: link.name.replace(/\s+/g, "").toLowerCase() as
-              | "email"
-              | "mailinglist"
-              | "chat"
-              | "twitter"
-              | "blog"
-              | "irc",
-            value:
-              "value" in link
-                ? link.value
-                : (link as { url: string }).url || "",
-          })) || [],
-      };
+    const filePath = path.join(process.cwd(), "orgs", `${year}.json`);
+    if (!fs.existsSync(filePath)) return;
 
-      const existingOrg = organizations.find((o) =>
-        isMergePossible(o, {
-          name: filteredName,
-          website_url: org.website_url,
-        })
-      );
+    try {
+      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-      if (existingOrg) {
-        mergeOrganizations(
-          existingOrg,
-          sanitizedOrg,
-          year,
-          org.projects?.length || 0
+      (data.organizations || []).forEach((org: Organization) => {
+        const filteredName = filterItem(
+          organizationNameFilters,
+          org.name,
+          org.name.trim()
         );
-      } else {
-        organizations.push(sanitizedOrg);
-      }
-    });
+        const sanitizedOrg: Organization = {
+          name: filteredName,
+          nav_url: sanitize(filteredName),
+          tagline: org.tagline || "",
+          website_url: org.website_url || "",
+          logo_url: org.logo_url || "",
+          categories: Array.from(
+            new Set(
+              (org.categories || []).flatMap((cat) =>
+                filterItem(organizationCategoriesFilters, cat, [cat.trim()])
+              )
+            )
+          ),
+          topic_tags: Array.from(
+            new Set((org.topic_tags || []).map((topic) => topic.trim()))
+          ).sort((a, b) => a.length - b.length),
+          tech_tags: Array.from(
+            new Set(
+              (org.tech_tags || []).flatMap((tech) =>
+                filterItem(technologyFilters, tech, [tech.trim()])
+              )
+            )
+          ).sort((a, b) => a.length - b.length),
+          years_appeared: [year],
+          logo_bg_color: org.logo_bg_color || "",
+          num_projects: org.projects?.length || 0,
+          projects_by_year: { [year]: org.projects?.length || 0 },
+          projects: org.projects || [],
+          contact_links:
+            org.contact_links.map((link) => ({
+              name: link.name.replace(/\s+/g, "").toLowerCase() as
+                | "email"
+                | "mailinglist"
+                | "chat"
+                | "twitter"
+                | "blog"
+                | "irc",
+              value: link.value || link.url || "",
+            })) || [],
+        };
+
+        const existingOrg = organizations.find((o) =>
+          isMergePossible(o, {
+            name: filteredName,
+            website_url: org.website_url,
+          })
+        );
+
+        if (existingOrg) {
+          mergeOrganizations(
+            existingOrg,
+            sanitizedOrg,
+            year,
+            org.projects?.length || 0
+          );
+        } else {
+          organizations.push(sanitizedOrg);
+        }
+      });
+    } catch (error) {
+      console.error(`Failed to process ${filePath}:`, error);
+    }
   });
 
   return organizations;

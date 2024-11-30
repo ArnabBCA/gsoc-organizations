@@ -2,10 +2,11 @@ import { OrganizationChart } from "@/components/OrganizationChart";
 import OrganizationCard from "@/components/OrgnizationCard";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
 import { Organization } from "@/types/types";
+import fs from "fs";
+import path from "path";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
 
-export const runtime = "edge";
 type Params = Promise<{ orgname: string }>;
 
 export async function generateStaticParams() {
@@ -39,9 +40,9 @@ export default async function Page(props: { params: Params }) {
     return <div>Organization not found</div>;
   } else {
     // Extract the `years_appeared` field
-    //const yearsAppearedData = { projects_by_year: org.projects_by_year };
+    const yearsAppearedData = { projects_by_year: org.projects_by_year };
 
-    /*// Path to the analytics folder
+    // Path to the analytics folder
     const analyticsFolder = path.join(process.cwd(), "public", "analytics");
 
     // Ensure the analytics folder exists
@@ -57,7 +58,7 @@ export default async function Page(props: { params: Params }) {
       filePath,
       JSON.stringify(yearsAppearedData, null, 2),
       "utf8"
-    );*/
+    );
   }
 
   return (

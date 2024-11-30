@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Deploy to Cloudflare Pages
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.12.1'  # Specify the Node.js version you want to use
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      # Build the project
+      - name: Build the Project
+        run: npm run build  # This will automatically generate the static site in the 'out' folder
+
+      # Publish the static assets to Cloudflare Pages
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: gsoc-organizations  # Replace with your Cloudflare Pages project name
+          directory: out  # The default output directory for static files
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
