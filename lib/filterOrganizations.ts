@@ -1,4 +1,4 @@
-import { ContactLink, Organization } from "@/types/types";
+import { Organization } from "@/types/types";
 import fs from "fs";
 import path from "path";
 
