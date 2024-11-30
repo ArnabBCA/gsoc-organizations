@@ -6,7 +6,7 @@
   },
   "functions": {
     "pages/**": {
-      "runtime": "edge",
+      "runtime": "vercel-edge@1.0.0",
       "memory": 128
     }
   }
