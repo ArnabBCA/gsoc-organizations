@@ -6,32 +6,31 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    name: Deploy to Cloudflare Pages
+    name: Deploy to Cloudflare Pages using Wrangler
     steps:
       # Checkout the repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up Node.js environment
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20.12.1'  # Specify the Node.js version you want to use
 
       # Install dependencies
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
-      # Build the project
+      # Build the project (generates static site in '.next' folder or '.vercel/output/static')
       - name: Build the Project
-        run: npm run build  # This will automatically generate the static site in the 'out' folder
+        run: npm run build
 
-      # Publish the static assets to Cloudflare Pages
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+      # Use Wrangler Action to deploy to Cloudflare Pages
+      - name: Deploy with Wrangler
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: gsoc-organizations  # Replace with your Cloudflare Pages project name
-          directory: out  # The default output directory for static files
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy out --project-name=gsoc-organizations
+        # Replace `YOUR_PROJECT_NAME` with your Cloudflare Pages project name
