@@ -18,6 +18,8 @@ jobs:
         with:
           node-version: '20.12.1'  # Specify the Node.js version you want to use
 
+      - name: Install Wrangler
+        run: npm install -g wrangler --legacy-peer-deps
       # Install dependencies
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
