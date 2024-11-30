@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "patch-package",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy"
@@ -37,6 +38,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.18",
     "eslint-plugin-next-on-pages": "^1.13.6",
+    "patch-package": "^8.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
