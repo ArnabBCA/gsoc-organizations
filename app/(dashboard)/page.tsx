@@ -5,6 +5,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
 import { Organization } from "@/types/types";
 
+export const runtime = "edge";
+
 // This function will be run during the build to statically generate the component
 const Home = async () => {
   // Load filtered organizations during the build process

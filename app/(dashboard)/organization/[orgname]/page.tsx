@@ -7,6 +7,7 @@ import path from "path";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
 
+export const runtime = "edge";
 type Params = Promise<{ orgname: string }>;
 
 export async function generateStaticParams() {
