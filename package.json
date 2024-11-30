@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "patch-package",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy"
@@ -29,6 +28,9 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "wrangler": "^3.91.0"
+  },
+  "patchedDependencies": {
+    "@vercel/next@4.4.0": "patches/@vercel%2Fnext@4.4.0.patch"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.6",
