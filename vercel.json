@@ -3,5 +3,11 @@
     "env": {
       "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
     }
+  },
+  "functions": {
+    "pages/**": {
+      "runtime": "edge",
+      "memory": 128
+    }
   }
 }
