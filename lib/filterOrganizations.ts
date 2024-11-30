@@ -1,4 +1,4 @@
-import { Organization } from "@/types/types";
+import { ContactLink, Organization } from "@/types/types";
 import fs from "fs";
 import path from "path";
 
@@ -65,6 +65,7 @@ const technologyFilters: Record<string, string[]> = {
   "php/javascript/ajax": ["php", "javascript", "ajax"],
   "html/javascript": ["html", "javascript"],
   "c/c++": ["c", "c++"],
+  "c programming": ["c"],
   "css/html": ["css", "html"],
   "web/html/css": ["web", "html", "css"],
   node: ["node.js"],
@@ -112,20 +113,30 @@ const mergeOrganizations = (
   numProjects: number
 ) => {
   existingOrg.years_appeared.push(year);
-  existingOrg.topic_tags = Array.from(
-    new Set(existingOrg.topic_tags.concat(newOrg.topic_tags))
-  );
-  existingOrg.tech_tags = Array.from(
-    new Set(existingOrg.tech_tags.concat(newOrg.tech_tags))
-  );
   existingOrg.projects = existingOrg.projects.concat(newOrg.projects);
   existingOrg.projects_by_year[year] =
     (existingOrg.projects_by_year[year] || 0) + numProjects;
+  
   Object.assign(existingOrg, {
     categories: newOrg.categories,
+    topic_tags: Array.from(
+      new Set((newOrg.topic_tags || []).map((topic) => topic.trim()))
+    ).sort((a, b) => a.length - b.length),
+    tech_tags: Array.from(
+      new Set(
+        (newOrg.tech_tags || []).flatMap((tech) =>
+          filterItem(technologyFilters, tech, [tech.trim()])
+        )
+      )
+    ).sort((a, b) => a.length - b.length),
     tagline: newOrg.tagline,
     logo_url: newOrg.logo_url,
     logo_bg_color: newOrg.logo_bg_color,
+    contact_links:
+      newOrg.contact_links.map((link) => ({
+        name: link.name.replace(/\s+/g, "").toLowerCase(),
+        value: link.value || link.url || "",
+      })) || [],
   });
 };
 
@@ -163,19 +174,30 @@ export const loadFilteredOrganizations = (
           ),
           topic_tags: Array.from(
             new Set((org.topic_tags || []).map((topic) => topic.trim()))
-          ),
+          ).sort((a, b) => a.length - b.length),
           tech_tags: Array.from(
             new Set(
               (org.tech_tags || []).flatMap((tech) =>
                 filterItem(technologyFilters, tech, [tech.trim()])
               )
             )
-          ),
+          ).sort((a, b) => a.length - b.length),
           years_appeared: [year],
           logo_bg_color: org.logo_bg_color || "",
           num_projects: org.projects?.length || 0,
           projects_by_year: { [year]: org.projects?.length || 0 },
           projects: org.projects || [],
+          contact_links:
+            org.contact_links.map((link) => ({
+              name: link.name.replace(/\s+/g, "").toLowerCase() as
+                | "email"
+                | "mailinglist"
+                | "chat"
+                | "twitter"
+                | "blog"
+                | "irc",
+              value: link.value || link.url || "",
+            })) || [],
         };
 
         const existingOrg = organizations.find((o) =>

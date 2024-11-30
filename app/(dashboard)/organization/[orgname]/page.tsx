@@ -5,6 +5,7 @@ import { Organization } from "@/types/types";
 import fs from "fs";
 import path from "path";
 import PastProjects from "./_components/PastProjects";
+import ConatctLinks from "./_components/ConatctLinks";
 
 type Params = Promise<{ orgname: string }>;
 
@@ -61,7 +62,7 @@ export default async function Page(props: { params: Params }) {
   }
 
   return (
-    <div className="w-full flex flex-col gap-4 items-center">
+    <div className="w-full flex flex-col gap-4 items-center py-4">
       <div className="w-full flex flex-col sm:flex-col md:flex-row lg:flex-row gap-4 justify-center">
         <div className="max-w-96">
           <OrganizationCard
@@ -71,6 +72,7 @@ export default async function Page(props: { params: Params }) {
           />
         </div>
         <OrganizationChart />
+        <ConatctLinks contactLinks={org.contact_links} />
       </div>
       <PastProjects projects={org.projects} />
     </div>

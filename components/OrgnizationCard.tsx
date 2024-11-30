@@ -16,6 +16,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
   isLandingPage,
   organization,
 }) => {
+  const numberOfTags = 5;
   return (
     <Link
       key={organization.name}
@@ -72,7 +73,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
           ))}
           <br />
           {organization.topic_tags.map((topic, i) =>
-            i < 5 ? (
+            i < numberOfTags ? (
               <Badge
                 key={topic}
                 className="bg-slate-200 text-muted-foreground hover:bg-slate-200"
@@ -85,14 +86,14 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
               </span>
             )
           )}
-          {organization.topic_tags.length > 5 && (
+          {organization.topic_tags.length > numberOfTags && (
             <Badge className="bg-slate-200 text-muted-foreground hover:bg-slate-200">
-              {`+${organization.topic_tags.length - 5}`}
+              {`+${organization.topic_tags.length - numberOfTags}`}
             </Badge>
           )}
           <br />
           {organization.tech_tags.map((tech: string, i: number) =>
-            i < 5 ? (
+            i < numberOfTags ? (
               <Badge
                 key={tech}
                 className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white"
@@ -105,9 +106,9 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
               </span>
             )
           )}
-          {organization.tech_tags.length > 5 && (
+          {organization.tech_tags.length > numberOfTags && (
             <Badge className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white">
-              {`+${organization.tech_tags.length - 5}`}
+              {`+${organization.tech_tags.length - numberOfTags}`}
             </Badge>
           )}
         </div>

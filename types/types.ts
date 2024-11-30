@@ -3,6 +3,7 @@ export type Organization = {
   nav_url: string;
   tagline: string;
   website_url: string;
+  contact_links: ContactLink[];
   logo_url: string;
   logo_bg_color: string;
   categories: string[];
@@ -12,6 +13,12 @@ export type Organization = {
   num_projects: number;
   projects: any[];
   projects_by_year: { [year: string]: number };
+};
+
+export type ContactLink = {
+  name: "email" | "mailinglist" | "chat" | "twitter" | "blog" | "irc";
+  value: string;
+  url?: string;
 };
 
 export type Category = {
