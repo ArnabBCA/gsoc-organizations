@@ -2,8 +2,6 @@ import { OrganizationChart } from "@/components/OrganizationChart";
 import OrganizationCard from "@/components/OrgnizationCard";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
 import { Organization } from "@/types/types";
-import fs from "fs";
-import path from "path";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
 
