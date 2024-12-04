@@ -1,7 +1,7 @@
 import { OrganizationChart } from "@/components/OrganizationChart";
 import OrganizationCard from "@/components/OrgnizationCard";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
-import { Organization } from "@/types/types";
+import { GithubOrgJson, Organization } from "@/types/types";
 import fs from "fs";
 import path from "path";
 import PastProjects from "./_components/PastProjects";
@@ -41,6 +41,7 @@ export async function generateMetadata(props: { params: Params }) {
 export default async function Page(props: { params: Params }) {
   const params = await props.params;
   const org = organizations.find((o) => o.nav_url === params.orgname);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let orgData: any = {};
   if (!org) {
     return <div>Organization not found</div>;
@@ -48,7 +49,7 @@ export default async function Page(props: { params: Params }) {
     const dbFilePath = path.join(process.cwd(), `github_org.json`);
     if (fs.existsSync(dbFilePath) && dbAllOrgs) {
       const data = JSON.parse(fs.readFileSync(dbFilePath, "utf-8"));
-      data.forEach((element: any) => {
+      data.forEach((element: GithubOrgJson) => {
         if (
           element &&
           element.github_name &&
@@ -56,7 +57,6 @@ export default async function Page(props: { params: Params }) {
         ) {
           dbAllOrgs.forEach((dbOrg) => {
             if (dbOrg.name == element.github_name) {
-              console.log("Organization found", dbOrg);
               orgData = dbOrg;
             }
           });
