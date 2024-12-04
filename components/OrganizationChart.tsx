@@ -3,13 +3,7 @@
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import { useEffect, useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,

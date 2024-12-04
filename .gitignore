@@ -28,6 +28,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+github_org.json
 
 # env files (can opt-in for committing if needed)
 .env*

@@ -4,6 +4,8 @@ import path from "path";
 
 // Filters for organization names
 const organizationNameFilters: Record<string, string> = {
+  "52°North Initiative for Geospatial Open Source Software GmbH":
+    "52°North Spatial Information Research GmbH",
   "afl++": "AFLplusplus",
   "The Apertium Project": "Apertium",
   "AOSSIE - Australian Open Source Software Innovation and Education": "AOSSIE",
@@ -116,7 +118,7 @@ const mergeOrganizations = (
   existingOrg.projects = existingOrg.projects.concat(newOrg.projects);
   existingOrg.projects_by_year[year] =
     (existingOrg.projects_by_year[year] || 0) + numProjects;
-  
+
   Object.assign(existingOrg, {
     categories: newOrg.categories,
     topic_tags: Array.from(
@@ -141,11 +143,11 @@ const mergeOrganizations = (
 };
 
 // Loads and filters organizations from JSON files
-export const loadFilteredOrganizations = (
-  years: number[] = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
-): Organization[] => {
+export const loadFilteredOrganizations = (): Organization[] => {
+  const years: number[] = [
+    2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
+  ];
   const organizations: Organization[] = [];
-
   years.forEach((year) => {
     const filePath = path.join(process.cwd(), "orgs", `${year}.json`);
     if (!fs.existsSync(filePath)) return;

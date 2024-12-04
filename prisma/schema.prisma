@@ -3,62 +3,57 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Organization {
-  orgId                 BigInt              @id
-  name                  String              @unique
-  
-  repositories          Repository[]        @relation("OrganizationRepositories")
-  allContributors       AllContributors[]   @relation("OrganizationAllContributors")
-  newContributors       NewContributors[]   @relation("OrganizationNewContributors")
-
-  openIssues            Int                 @default(0)
-  openUnassignedIssues  Int                 @default(0)
-  openUnassignedGoodFirstIssues Int         @default(0)
-  openUnassignedGoogleIssuesList Json      @default("[]")
-
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @updatedAt
+  orgId                          BigInt            @id
+  name                           String            @unique
+  openIssues                     Int               @default(0)
+  openUnassignedIssues           Int               @default(0)
+  openUnassignedGoodFirstIssues  Int               @default(0)
+  createdAt                      DateTime          @default(now())
+  updatedAt                      DateTime          @updatedAt
+  openUnassignedGoogleIssuesList Json              @default("[]")
+  allContributors                AllContributors[] @relation("OrganizationAllContributors")
+  newContributors                NewContributors[] @relation("OrganizationNewContributors")
+  repositories                   Repository[]      @relation("OrganizationRepositories")
 
   @@index([name])
 }
 
 model Repository {
-  repoId           BigInt              @id
-  orgId            BigInt              
-  name             String
-  lastPageVisited  Int                 @default(1)
-
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
-  organization     Organization        @relation("OrganizationRepositories", fields: [orgId], references: [orgId], onDelete: Cascade)
+  repoId          BigInt       @id
+  orgId           BigInt
+  name            String
+  lastPageVisited Int          @default(1)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  organization    Organization @relation("OrganizationRepositories", fields: [orgId], references: [orgId], onDelete: Cascade)
 
   @@index([orgId])
 }
 
 model AllContributors {
-  id               BigInt              @id @default(autoincrement())
-  orgId            BigInt              
-  githubId         BigInt                 
-
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
-  organization     Organization        @relation("OrganizationAllContributors", fields: [orgId], references: [orgId], onDelete: Cascade)
+  id           BigInt       @id @default(autoincrement())
+  orgId        BigInt
+  githubId     BigInt
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  organization Organization @relation("OrganizationAllContributors", fields: [orgId], references: [orgId], onDelete: Cascade)
 
   @@unique([orgId, githubId])
   @@index([orgId])
 }
 
 model NewContributors {
-  id               BigInt              @id @default(autoincrement())
-  orgId            BigInt             
-  newContributors  Int                 @default(0)         
+  id              BigInt       @id @default(autoincrement())
+  orgId           BigInt
+  newContributors Int          @default(0)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  organization    Organization @relation("OrganizationNewContributors", fields: [orgId], references: [orgId], onDelete: Cascade)
 
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
-  organization     Organization        @relation("OrganizationNewContributors", fields: [orgId], references: [orgId], onDelete: Cascade)
   @@index([orgId])
 }
