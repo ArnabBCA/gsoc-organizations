@@ -64,50 +64,48 @@ export function OrganizationChart() {
   } satisfies ChartConfig;
 
   return (
-    <Card className="max-w-[36rem] w-full">
-      <CardHeader>
-        <CardTitle>Number of pojects per year</CardTitle>
-        <CardDescription className="min-h-5">
-          {chartData[0] &&
-            chartData[0].year + "-" + chartData[chartData.length - 1].year}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="px-4 pb-4">
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            key={JSON.stringify(chartData)} // Ensure re-rendering with new data
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 18,
-              left: 18,
-              right: 18,
+    <Card className="w-full p-4 h-full sm:max-w-[665.6px]">
+      <h2 className="text-lg font-semibold org-name">
+        Number of pojects per year
+      </h2>
+      <p className="text-muted-foreground">
+        {chartData[0] &&
+          chartData[0].year + "-" + chartData[chartData.length - 1].year}
+      </p>
+      <ChartContainer config={chartConfig}>
+        <LineChart
+          key={JSON.stringify(chartData)} // Ensure re-rendering with new data
+          accessibilityLayer
+          data={chartData}
+          margin={{
+            top: 18,
+            left: 18,
+            right: 18,
+          }}
+        >
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="year"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+            tickFormatter={(value) => value.slice(0, 4)} // Display full year (e.g., 2024)
+          />
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <Line
+            dataKey="projects"
+            type="natural"
+            stroke="var(--color-desktop)"
+            strokeWidth={2}
+            dot={{
+              fill: "var(--color-desktop)",
             }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="year"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 4)} // Display full year (e.g., 2024)
-            />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Line
-              dataKey="projects"
-              type="natural"
-              stroke="var(--color-desktop)"
-              strokeWidth={2}
-              dot={{
-                fill: "var(--color-desktop)",
-              }}
-              activeDot={{
-                r: 6,
-              }}
-            />
-          </LineChart>
-        </ChartContainer>
-      </CardContent>
+            activeDot={{
+              r: 6,
+            }}
+          />
+        </LineChart>
+      </ChartContainer>
     </Card>
   );
 }

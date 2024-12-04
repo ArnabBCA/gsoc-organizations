@@ -63,16 +63,18 @@ export default async function Page(props: { params: Params }) {
 
   return (
     <div className="w-full flex flex-col gap-4 items-center py-4">
-      <div className="w-full flex flex-col sm:flex-col md:flex-row lg:flex-row gap-4 justify-center">
-        <div className="max-w-96">
-          <OrganizationCard
-            key={org.name}
-            organization={org}
-            isLandingPage={false}
-          />
+      <div className="w-full flex flex-col sm:flex-col md:flex-col lg:flex-row gap-4 justify-center items-center">
+        <div className="flex flex-col gap-4 w-full sm:flex-row justify-center items-center h-full">
+          <div className="max-w-96 w-full h-full">
+            <OrganizationCard
+              key={org.name}
+              organization={org}
+              isLandingPage={false}
+            />
+          </div>
+          <ConatctLinks contactLinks={org.contact_links} />
         </div>
         <OrganizationChart />
-        <ConatctLinks contactLinks={org.contact_links} />
       </div>
       <PastProjects projects={org.projects} />
     </div>

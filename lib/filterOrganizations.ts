@@ -195,6 +195,7 @@ export const loadFilteredOrganizations = (
                 | "chat"
                 | "twitter"
                 | "blog"
+                | "facebook"
                 | "irc",
               value: link.value || link.url || "",
             })) || [],

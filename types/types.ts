@@ -16,7 +16,14 @@ export type Organization = {
 };
 
 export type ContactLink = {
-  name: "email" | "mailinglist" | "chat" | "twitter" | "blog" | "irc";
+  name:
+    | "email"
+    | "mailinglist"
+    | "chat"
+    | "twitter"
+    | "blog"
+    | "irc"
+    | "facebook";
   value: string;
   url?: string;
 };
