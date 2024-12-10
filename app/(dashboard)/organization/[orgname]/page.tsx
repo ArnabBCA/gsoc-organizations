@@ -91,7 +91,9 @@ export default async function Page(props: { params: Params }) {
         </div>
         <OrganizationChart />
       </div>
-      {Object.keys(orgData).length !== 0 && <OrgInsights {...orgData} />}
+      {Object.keys(orgData).length !== 0 && (
+        <OrgInsights organization={orgData} />
+      )}
       <PastProjects projects={org.projects} />
     </div>
   );
