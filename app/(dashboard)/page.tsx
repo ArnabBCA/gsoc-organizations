@@ -8,7 +8,7 @@ import { Organization } from "@/types/types";
 // This function will be run during the build to statically generate the component
 const Home = async () => {
   // Load filtered organizations during the build process
-  const organizations: Organization[] = loadFilteredOrganizations();
+  const { organizations } = loadFilteredOrganizations();
 
   /*let map = new Map();
 

@@ -11,7 +11,7 @@ import OrgInsights from "./_components/OrgInsights";
 
 type Params = Promise<{ orgname: string }>;
 
-const organizations: Organization[] = loadFilteredOrganizations();
+const { organizations } = loadFilteredOrganizations();
 const dbAllOrgs = await getAllOrganizations();
 
 export async function generateStaticParams() {

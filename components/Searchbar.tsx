@@ -20,7 +20,9 @@ const Searchbar = () => {
       const orgName =
         card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
       const orgCategory =
-        card.querySelector(".org-category")?.textContent?.toLowerCase() || "";
+        Array.from(card.querySelectorAll(".org-category")).map(
+          (catElem) => catElem.textContent?.toLowerCase() || ""
+        );
       const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
         (yearElem) => yearElem.textContent?.trim().toLowerCase() || ""
       );

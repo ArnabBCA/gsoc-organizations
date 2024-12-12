@@ -35,7 +35,4 @@ export type ContactLink = {
   url?: string;
 };
 
-export type Category = {
-  name: string;
-  count: number;
-};
+export type Category = Record<string, number>;

@@ -143,7 +143,7 @@ const mergeOrganizations = (
 };
 
 // Loads and filters organizations from JSON files
-export const loadFilteredOrganizations = (): Organization[] => {
+export const loadFilteredOrganizations = () => {
   const years: number[] = [
     2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
   ];
@@ -226,5 +226,12 @@ export const loadFilteredOrganizations = (): Organization[] => {
     }
   });
 
-  return organizations;
+  const categoryCounts: Record<string, number> = {};
+  organizations.forEach((org) => {
+    (org.categories || []).forEach((category) => {
+      categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+    });
+  });
+  
+  return { organizations, categoryCounts };
 };
