@@ -1,18 +1,14 @@
 import { OrganizationChart } from "@/components/OrganizationChart";
 import OrganizationCard from "@/components/OrgnizationCard";
 import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
-import { GithubOrgJson, Organization } from "@/types/types";
 import fs from "fs";
 import path from "path";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
-import { getAllOrganizations } from "@/actions/actions";
-import OrgInsights from "./_components/OrgInsights";
 
 type Params = Promise<{ orgname: string }>;
 
 const { organizations } = loadFilteredOrganizations();
-const dbAllOrgs = await getAllOrganizations();
 
 export async function generateStaticParams() {
   return organizations.map((org) => {
@@ -41,28 +37,9 @@ export async function generateMetadata(props: { params: Params }) {
 export default async function Page(props: { params: Params }) {
   const params = await props.params;
   const org = organizations.find((o) => o.nav_url === params.orgname);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let orgData: any = {};
   if (!org) {
     return <div>Organization not found</div>;
   } else {
-    const dbFilePath = path.join(process.cwd(), `github_org.json`);
-    if (fs.existsSync(dbFilePath) && dbAllOrgs) {
-      const data = JSON.parse(fs.readFileSync(dbFilePath, "utf-8"));
-      data.forEach((element: GithubOrgJson) => {
-        if (
-          element &&
-          element.github_name &&
-          element.nav_url === params.orgname
-        ) {
-          dbAllOrgs.forEach((dbOrg) => {
-            if (dbOrg.name == element.github_name) {
-              orgData = dbOrg;
-            }
-          });
-        }
-      });
-    }
     const yearsAppearedData = { projects_by_year: org.projects_by_year };
     const analyticsFolder = path.join(process.cwd(), "public", "analytics");
     if (!fs.existsSync(analyticsFolder)) {
@@ -79,21 +56,13 @@ export default async function Page(props: { params: Params }) {
   return (
     <div className="w-full flex flex-col gap-4 items-center py-4">
       <div className="w-full flex flex-col sm:flex-col md:flex-col lg:flex-row gap-4 justify-center items-center">
-        <div className="flex flex-col gap-4 w-full sm:flex-row justify-center items-center h-full">
-          <div className="max-w-96 w-full h-full">
-            <OrganizationCard
-              key={org.name}
-              organization={org}
-              isLandingPage={false}
-            />
-          </div>
-          <ConatctLinks contactLinks={org.contact_links} />
-        </div>
+        <OrganizationCard
+          key={org.name}
+          organization={org}
+          isLandingPage={false}
+        />
         <OrganizationChart />
       </div>
-      {Object.keys(orgData).length !== 0 && (
-        <OrgInsights organization={orgData} />
-      )}
       <PastProjects projects={org.projects} />
     </div>
   );
