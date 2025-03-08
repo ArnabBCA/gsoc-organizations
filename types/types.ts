@@ -14,13 +14,6 @@ export type Organization = {
   projects_by_year: { [year: string]: number };
 };
 
-export type GithubOrgJson = {
-  nav_url: string;
-  github_name?: string;
-  sub_orgs?: string[];
-  proposals?: string[];
-};
-
 export type ContactLink = {
   name:
     | "mailinglist"
