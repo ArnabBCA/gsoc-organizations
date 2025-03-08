@@ -10,7 +10,6 @@ export type Organization = {
   topic_tags: string[];
   tech_tags: string[];
   years_appeared: number[];
-  num_projects: number;
   projects: any[];
   projects_by_year: { [year: string]: number };
 };
@@ -24,15 +23,15 @@ export type GithubOrgJson = {
 
 export type ContactLink = {
   name:
-    | "email"
     | "mailinglist"
+    | "email"
     | "chat"
     | "twitter"
     | "blog"
     | "irc"
-    | "facebook";
+    | "facebook"
+    | "gplus";
   value: string;
-  url?: string;
 };
 
 export type Category = Record<string, number>;

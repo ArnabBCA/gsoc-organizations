@@ -2,7 +2,6 @@ import React from "react";
 import { ContactLink } from "@/types/types";
 import {
   Facebook,
-  Globe,
   Mail,
   MessageCircle,
   NotebookPen,
@@ -17,38 +16,63 @@ type ContactLinksProps = {
 };
 
 const ContactLinks: React.FC<ContactLinksProps> = ({ contactLinks }) => {
-  const iconMap: Record<string, React.ReactNode> = {
-    email: <Mail />,
-    blog: <NotebookPen />,
-    chat: <MessageCircle />,
-    irc: <MessageCircle />,
-    twitter: <Twitter />,
-    facebook: <Facebook />,
-    mailinglist: <Globe />,
+  const linkformat: Record<
+    string,
+    { icon: React.ReactNode; dispalyName: string }
+  > = {
+    email: {
+      icon: <Mail />,
+      dispalyName: "Email",
+    },
+    blog: {
+      icon: <NotebookPen />,
+      dispalyName: "Blog",
+    },
+    chat: {
+      icon: <MessageCircle />,
+      dispalyName: "Chat",
+    },
+    irc: {
+      icon: <MessageCircle />,
+      dispalyName: "IRC",
+    },
+    twitter: {
+      icon: <Twitter />,
+      dispalyName: "Twitter / X",
+    },
+    facebook: {
+      icon: <Facebook />,
+      dispalyName: "Facebook",
+    },
+    mailinglist: {
+      icon: <Mail />,
+      dispalyName: "Mailing List / Forum",
+    }
   };
 
   return (
-    <div className="w-full flex flex-wrap gap-2 items-center justify-center">
-      {contactLinks.map(
-        (link, i) =>
-          link.value !== undefined && (
-            <Link
-              key={i}
-              target="_blank"
-              rel="noopener noreferrer"
-              href={
-                link.value?.startsWith("http")
-                  ? link.value
-                  : `https://${link.value}`
-              }
-            >
-              <Button variant="secondary" size="icon">
-                {iconMap[link.name]}
-              </Button>
-            </Link>
-          )
-      )}
-    </div>
+    <Card className="w-full flex flex-col gap-4 items-center p-4 max-w-min h-full">
+      {contactLinks.map((link, i) => (
+        <Link
+          key={i}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center gap-2"
+          href={
+            link.value.includes("@")
+              ? `mailto:${link.value}`
+              : link.value.startsWith("http")
+              ? link.value
+              : `https://${link.value}`
+          }
+        >
+          <Button variant="secondary" size="icon">
+            {linkformat[link.name]?.icon}
+          </Button>
+          <p className="text-center whitespace-nowrap">{linkformat[link.name]?.dispalyName}</p>
+        </Link>
+      ))}
+    </Card>
   );
 };
 

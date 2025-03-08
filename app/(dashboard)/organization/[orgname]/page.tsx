@@ -1,14 +1,14 @@
 import { OrganizationChart } from "@/components/OrganizationChart";
 import OrganizationCard from "@/components/OrgnizationCard";
-import { loadFilteredOrganizations } from "@/lib/filterOrganizations";
 import fs from "fs";
 import path from "path";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
+import { computeOrgs } from "@/lib/getAllOrganizations";
 
 type Params = Promise<{ orgname: string }>;
 
-const { organizations } = loadFilteredOrganizations();
+const organizations = computeOrgs();
 
 export async function generateStaticParams() {
   return organizations.map((org) => {
@@ -61,6 +61,7 @@ export default async function Page(props: { params: Params }) {
           organization={org}
           isLandingPage={false}
         />
+        <ConatctLinks contactLinks={org.contact_links} />
         <OrganizationChart />
       </div>
       <PastProjects projects={org.projects} />
