@@ -4,7 +4,7 @@ import React from "react";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { CheckboxList } from "@/components/CheckboxList";
 import { SidebarMenuItem } from "./ui/sidebar";
-import { categories } from "@/catagory/data";
+import { CATEGORIES } from "@/constants";
 
 const CategoryCheckbox = () => {
   const {
@@ -15,11 +15,11 @@ const CategoryCheckbox = () => {
   return (
     <SidebarMenuItem className="p-2">
       <CheckboxList
-        items={Object.keys(categories)}
+        items={Object.keys(CATEGORIES)}
         selectedItems={selectedCategories}
         handleItemChange={handleCategoryChange}
         labelFn={(categoryName) => {
-          return `${categoryName} (${categories[categoryName]})`;
+          return `${categoryName} (${CATEGORIES[categoryName]})`;
         }}
       />
     </SidebarMenuItem>

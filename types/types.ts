@@ -26,5 +26,3 @@ export type ContactLink = {
     | "gplus";
   value: string;
 };
-
-export type Category = Record<string, number>;
