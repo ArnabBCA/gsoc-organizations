@@ -68,7 +68,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
           i < numberOfTags ? (
             <Badge
               key={topic}
-              className="bg-slate-200 text-muted-foreground hover:bg-slate-200"
+              className="bg-slate-200 text-muted-foreground hover:bg-slate-200 org-topic"
             >
               {topic}
             </Badge>

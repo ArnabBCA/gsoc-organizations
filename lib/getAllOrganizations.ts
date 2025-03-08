@@ -69,19 +69,22 @@ export const computeOrgs = () => {
   });
 
   const categoryCounts: Record<string, number> = {};
+  const topicCounts: Record<string, number> = {};
 
   const organizations = Array.from(organizationsMap.values()).sort((a, b) =>
     a.name.localeCompare(b.name)
   );
-
-  console.log(organizations.length);
   organizations.forEach((org) => {
     org.categories.forEach((category: string) => {
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
     });
+    org.topic_tags.forEach((topic: string) => {
+      topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+    });
   });
 
-  console.log(categoryCounts);
+  //console.log(categoryCounts);
+  //console.log(topicCounts);
 
   return organizations;
 };

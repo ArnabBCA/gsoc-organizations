@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 type CheckboxListProps = {
@@ -14,9 +14,20 @@ export const CheckboxList = ({
   handleItemChange,
   labelFn,
 }: CheckboxListProps) => {
+
+  // Sort items: selected items come first
+  const sortedItems = useMemo(() => {
+    console.log("Sorting items");
+    return [...items].sort((a, b) => {
+      const aSelected = selectedItems.includes(a) ? -1 : 1;
+      const bSelected = selectedItems.includes(b) ? -1 : 1;
+      return aSelected - bSelected;
+    });
+  }, [items, selectedItems]);
+
   return (
     <div className="flex flex-col gap-1">
-      {items.map((item) => {
+      {sortedItems.map((item) => {
         const checked = selectedItems.includes(item);
         const labelId = `label-${item}`;
         const labelText = labelFn(item);

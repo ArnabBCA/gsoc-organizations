@@ -12,19 +12,22 @@ const Searchbar = () => {
 
   const filterCards = useCallback(() => {
     const params = getAllParams();
-    const categoryFilters = params.category || [];
+    const categoryFilters = params.categories || [];
     const yearFilters = params.years || [];
+    const topicFilters = params.topics || [];
     const queryLower = query.toLowerCase();
 
     cardsRef.current.forEach((card) => {
       const orgName =
         card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
-      const orgCategory =
-        Array.from(card.querySelectorAll(".org-category")).map(
-          (catElem) => catElem.textContent?.toLowerCase() || ""
-        );
+      const orgCategory = Array.from(
+        card.querySelectorAll(".org-category")
+      ).map((catElem) => catElem.textContent?.toLowerCase() || "");
       const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
         (yearElem) => yearElem.textContent?.trim().toLowerCase() || ""
+      );
+      const orgTopics = Array.from(card.querySelectorAll(".org-topic")).map(
+        (topicElem) => topicElem.textContent?.trim().toLowerCase() || ""
       );
 
       const matchesQuery = queryLower ? orgName.includes(queryLower) : true;
@@ -33,13 +36,18 @@ const Searchbar = () => {
             orgCategory.includes(filter.toLowerCase())
           )
         : true;
+      const matchesTopic = topicFilters.length
+        ? topicFilters.some((filter: string) =>
+            orgTopics.includes(filter.toLowerCase())
+          )
+        : true;
       const matchesYear = yearFilters.length
         ? yearFilters.some((filter: string) =>
             orgYears.includes(filter.toLowerCase())
           )
         : true;
 
-      if (matchesQuery && matchesCategory && matchesYear) {
+      if (matchesQuery && matchesCategory && matchesYear && matchesTopic) {
         card.classList.remove("hidden");
       } else {
         card.classList.add("hidden");

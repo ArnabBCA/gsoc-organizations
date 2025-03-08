@@ -3,13 +3,12 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
 } from "@/components/ui/sidebar";
 import CategoryCheckbox from "./CategoryCheckbox";
 import YearCheckbox from "./YearCheckbox";
+import TopicCheckbox from "./TopicCheckbox";
 
 export function AppSidebar() {
   return (
@@ -20,19 +19,15 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Years</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <YearCheckbox />
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <YearCheckbox />
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Categories</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <CategoryCheckbox />
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <CategoryCheckbox />
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Topics</SidebarGroupLabel>
+          <TopicCheckbox />
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />
