@@ -95,17 +95,21 @@ export const CheckboxList = ({
             value={searchItem}
             onChange={(e) => setSearchItem(e.target.value)}
           />
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 h-full overflow-y-scroll">
-            {filteredItems.map((item) => (
-              <CheckboxItem
-                key={item}
-                item={item}
-                checked={selectedItems.includes(item)}
-                handleItemChange={handleItemChange}
-                labelFn={labelFn}
-              />
-            ))}
-          </div>
+          {filteredItems.length != 0 ? (
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 h-full overflow-y-scroll">
+              {filteredItems.map((item) => (
+                <CheckboxItem
+                  key={item}
+                  item={item}
+                  checked={selectedItems.includes(item)}
+                  handleItemChange={handleItemChange}
+                  labelFn={labelFn}
+                />
+              ))}
+            </div>
+          ) : (
+            <span className="text-center text-sm text-muted-foreground">No Filters Found</span>
+          )}
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
               <Button type="button">Close</Button>
