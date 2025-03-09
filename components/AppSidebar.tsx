@@ -9,25 +9,38 @@ import {
 import CategoryCheckbox from "./CategoryCheckbox";
 import YearCheckbox from "./YearCheckbox";
 import TopicCheckbox from "./TopicCheckbox";
+import TechCheckbox from "./TechCheckbox";
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader>
+      <SidebarHeader className="p-4 text-center">
         <h1>GSoC Organizations</h1>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Years</SidebarGroupLabel>
+      <SidebarContent className="px-4">
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-base pb-4 px-0">
+            Years
+          </SidebarGroupLabel>
           <YearCheckbox />
         </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Categories</SidebarGroupLabel>
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-base pb-4 px-0">
+            Categories
+          </SidebarGroupLabel>
           <CategoryCheckbox />
         </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Topics</SidebarGroupLabel>
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-base pb-4 px-0">
+            Topics
+          </SidebarGroupLabel>
           <TopicCheckbox />
+        </SidebarGroup>
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-base pb-4 px-0">
+            Techs
+          </SidebarGroupLabel>
+          <TechCheckbox />
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />

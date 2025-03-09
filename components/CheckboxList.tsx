@@ -84,7 +84,7 @@ export const CheckboxList = ({
       ))}
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="link">View More</Button>
+          <Button variant="link" className="pt-0 pb-4">View More</Button>
         </DialogTrigger>
         <DialogContent className="max-w-max min-w-[36rem] w-full max-h-[30rem] flex flex-col p-4">
           <DialogHeader>

@@ -15,6 +15,7 @@ const Searchbar = () => {
     const categoryFilters = params.categories || [];
     const yearFilters = params.years || [];
     const topicFilters = params.topics || [];
+    const techFilters = params.techs || [];
     const queryLower = query.toLowerCase();
 
     cardsRef.current.forEach((card) => {
@@ -22,12 +23,15 @@ const Searchbar = () => {
         card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
       const orgCategory = Array.from(
         card.querySelectorAll(".org-category")
-      ).map((catElem) => catElem.textContent?.toLowerCase() || "");
+      ).map((elem) => elem.textContent?.toLowerCase() || "");
       const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
-        (yearElem) => yearElem.textContent?.trim().toLowerCase() || ""
+        (elem) => elem.textContent?.trim().toLowerCase() || ""
       );
       const orgTopics = Array.from(card.querySelectorAll(".org-topic")).map(
-        (topicElem) => topicElem.textContent?.trim().toLowerCase() || ""
+        (elem) => elem.textContent?.trim().toLowerCase() || ""
+      );
+      const orgTechs = Array.from(card.querySelectorAll(".org-tech")).map(
+        (elem) => elem.textContent?.trim().toLowerCase() || ""
       );
 
       const matchesQuery = queryLower ? orgName.includes(queryLower) : true;
@@ -41,13 +45,26 @@ const Searchbar = () => {
             orgTopics.includes(filter.toLowerCase())
           )
         : true;
+
+      const matchesTech = techFilters.length
+        ? techFilters.some((filter: string) =>
+            orgTechs.includes(filter.toLowerCase())
+          )
+        : true;
+
       const matchesYear = yearFilters.length
         ? yearFilters.some((filter: string) =>
             orgYears.includes(filter.toLowerCase())
           )
         : true;
 
-      if (matchesQuery && matchesCategory && matchesYear && matchesTopic) {
+      if (
+        matchesQuery &&
+        matchesCategory &&
+        matchesYear &&
+        matchesTopic &&
+        matchesTech
+      ) {
         card.classList.remove("hidden");
       } else {
         card.classList.add("hidden");

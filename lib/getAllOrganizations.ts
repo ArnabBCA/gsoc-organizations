@@ -70,6 +70,7 @@ export const computeOrgs = () => {
 
   const categoryCounts: Record<string, number> = {};
   const topicCounts: Record<string, number> = {};
+  const techCounts: Record<string, number> = {};
 
   const organizations = Array.from(organizationsMap.values()).sort((a, b) =>
     a.name.localeCompare(b.name)
@@ -81,10 +82,14 @@ export const computeOrgs = () => {
     org.topic_tags.forEach((topic: string) => {
       topicCounts[topic] = (topicCounts[topic] || 0) + 1;
     });
+    org.tech_tags.forEach((tech: string) => {
+      techCounts[tech] = (techCounts[tech] || 0) + 1;
+    });
   });
 
   //console.log(categoryCounts);
   //console.log(topicCounts);
+  //console.log(techCounts);
 
   return organizations;
 };

@@ -73,7 +73,7 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
               {topic}
             </Badge>
           ) : (
-            <span key={topic} className="hidden">
+            <span key={topic} className="hidden org-topic">
               {topic}
             </span>
           )
@@ -88,12 +88,12 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
           i < numberOfTags ? (
             <Badge
               key={tech}
-              className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white"
+              className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white org-tech"
             >
               {tech}
             </Badge>
           ) : (
-            <span key={tech} className="hidden">
+            <span key={tech} className="hidden org-tech">
               {tech}
             </span>
           )
