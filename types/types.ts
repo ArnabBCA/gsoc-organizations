@@ -23,6 +23,7 @@ export type ContactLink = {
     | "blog"
     | "irc"
     | "facebook"
-    | "gplus";
+    | "gplus"
+    | "g+";
   value: string;
 };

@@ -47,7 +47,15 @@ const ContactLinks: React.FC<ContactLinksProps> = ({ contactLinks }) => {
     mailinglist: {
       icon: <Mail />,
       dispalyName: "Mailing List / Forum",
-    }
+    },
+    gplus: {
+      icon: <Mail />,
+      dispalyName: "Google Workplace",
+    },
+    "g+": {
+      icon: <Mail />,
+      dispalyName: "Google Workplace",
+    },
   };
 
   return (
@@ -69,7 +77,9 @@ const ContactLinks: React.FC<ContactLinksProps> = ({ contactLinks }) => {
           <Button variant="secondary" size="icon">
             {linkformat[link.name]?.icon}
           </Button>
-          <p className="text-center whitespace-nowrap">{linkformat[link.name]?.dispalyName}</p>
+          <p className="text-center whitespace-nowrap">
+            {linkformat[link.name]?.dispalyName}
+          </p>
         </Link>
       ))}
     </Card>
