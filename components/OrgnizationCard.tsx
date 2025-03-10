@@ -22,9 +22,9 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       key={organization.name}
       href={`/organization/${organization.nav_url}`}
       className={cn(
-        "group",
         isLandingPage && "relative hover:shadow-md",
-        "w-full h-full organization-card rounded-lg border bg-card text-card-foreground shadow-sm flex hidden flex-col items-center hiding p-4 gap-2"
+        "group w-full h-full organization-card rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col items-center hiding p-4 gap-2",
+        "hidden"
       )}
     >
       <StarButton navUrl={organization.name} />
