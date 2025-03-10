@@ -17,7 +17,7 @@ export const useQueryParams = (
   // Sync state with URL parameters on changes
   useEffect(() => {
     setSelectedValues(initialValues);
-  }, []);
+  }, [searchParams]);
 
   // Update the specified paramKey values in the query string
   const handleChange = useCallback(

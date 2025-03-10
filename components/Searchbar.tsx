@@ -45,7 +45,7 @@ const Searchbar = () => {
         )
       : new Set();
 
-    let isAllHidden = false;
+    //let isAllHidden = false;
 
     cardsRef.current.forEach((card, index) => {
       const org = orgData[index]; // Use the pre-extracted data
@@ -56,7 +56,7 @@ const Searchbar = () => {
         matchesFilter(topics, org.topics) &&
         matchesFilter(techs, org.techs) &&
         (!isFavoriteModeEnabled || favoriteOrgs.has(org.name));
-      if (!isMatch) isAllHidden = true;
+      //if (!isMatch) isAllHidden = true;
       card.classList.toggle("hidden", !isMatch);
     });
   };

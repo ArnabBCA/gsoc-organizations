@@ -4,27 +4,9 @@ import OrganizationCard from "@/components/OrgnizationCard";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { computeOrgs } from "@/lib/getAllOrganizations";
 
-// This function will be run during the build to statically generate the component
 const Home = async () => {
-  // Load filtered organizations during the build process
-  //const { organizations } = loadFilteredOrganizations();
 
   const organizations = computeOrgs();
-
-  /*let map = new Map();
-
-  organizations.forEach((org) => {
-    org.topic_tags.forEach((tag) => {
-      if (map.has(tag)) {
-        map.set(tag, map.get(tag) + 1);
-      } else {
-        map.set(tag, 1);
-      }
-    });
-  });
-
-  // Convert the map to an array and log the result
-  console.log(Array.from(map.entries()));*/
 
   return (
     <SidebarProvider>
@@ -46,5 +28,4 @@ const Home = async () => {
   );
 };
 
-// By exporting the component directly, Next.js will statically render it at build time
 export default Home;
