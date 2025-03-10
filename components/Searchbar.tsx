@@ -1,89 +1,104 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import SearchInput from "./SearchInput";
 
 const Searchbar = () => {
-  const [query, setQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const { getAllParams } = useQueryParams();
-  // Ref to cache card elements and their attributes
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
-  const filterCards = useCallback(() => {
-    const params = getAllParams();
-    const categoryFilters = params.categories || [];
-    const yearFilters = params.years || [];
-    const topicFilters = params.topics || [];
-    const techFilters = params.techs || [];
-    const queryLower = query.toLowerCase();
+  // Store extracted organization data
+  const [orgData, setOrgData] = useState<
+    {
+      name: string;
+      categories: string[];
+      years: string[];
+      topics: string[];
+      techs: string[];
+    }[]
+  >([]);
 
-    cardsRef.current.forEach((card) => {
-      const orgName =
-        card.querySelector(".org-name")?.textContent?.toLowerCase() || "";
-      const orgCategory = Array.from(
-        card.querySelectorAll(".org-category")
-      ).map((elem) => elem.textContent?.toLowerCase() || "");
-      const orgYears = Array.from(card.querySelectorAll(".org-year")).map(
-        (elem) => elem.textContent?.trim().toLowerCase() || ""
-      );
-      const orgTopics = Array.from(card.querySelectorAll(".org-topic")).map(
-        (elem) => elem.textContent?.trim().toLowerCase() || ""
-      );
-      const orgTechs = Array.from(card.querySelectorAll(".org-tech")).map(
-        (elem) => elem.textContent?.trim().toLowerCase() || ""
-      );
-
-      const matchesQuery = queryLower ? orgName.includes(queryLower) : true;
-      const matchesCategory = categoryFilters.length
-        ? categoryFilters.some((filter: string) =>
-            orgCategory.includes(filter.toLowerCase())
-          )
-        : true;
-      const matchesTopic = topicFilters.length
-        ? topicFilters.some((filter: string) =>
-            orgTopics.includes(filter.toLowerCase())
-          )
-        : true;
-
-      const matchesTech = techFilters.length
-        ? techFilters.some((filter: string) =>
-            orgTechs.includes(filter.toLowerCase())
-          )
-        : true;
-
-      const matchesYear = yearFilters.length
-        ? yearFilters.some((filter: string) =>
-            orgYears.includes(filter.toLowerCase())
-          )
-        : true;
-
-      if (
-        matchesQuery &&
-        matchesCategory &&
-        matchesYear &&
-        matchesTopic &&
-        matchesTech
-      ) {
-        card.classList.remove("hidden");
-      } else {
-        card.classList.add("hidden");
-      }
-    });
-  }, [query, getAllParams]);
-
-  useEffect(() => {
-    cardsRef.current = Array.from(
-      document.querySelectorAll(".organization-card")
+  const matchesFilter = (filters: string[], values: string[]) =>
+    filters.length === 0 ||
+    filters.some((filter) =>
+      values.map((v) => v.toLowerCase()).includes(filter.toLowerCase())
     );
-    filterCards();
-  }, [query, getAllParams, filterCards]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+  const filterCards = () => {
+    const params = getAllParams();
+    const {
+      categories = [],
+      years = [],
+      topics = [],
+      techs = [],
+      favorite = [],
+    } = params;
+    const isFavoriteModeEnabled = favorite[0] === "true";
+
+    const favoriteOrgs = isFavoriteModeEnabled
+      ? new Set(
+          Object.keys(localStorage)
+            .filter((key) => localStorage.getItem(key) === "true")
+            .map((key) => key.toLowerCase())
+        )
+      : new Set();
+
+    let isAllHidden = false;
+
+    cardsRef.current.forEach((card, index) => {
+      const org = orgData[index]; // Use the pre-extracted data
+      const isMatch =
+        (!searchQuery || org.name.includes(searchQuery)) &&
+        matchesFilter(categories, org.categories) &&
+        matchesFilter(years, org.years) &&
+        matchesFilter(topics, org.topics) &&
+        matchesFilter(techs, org.techs) &&
+        (!isFavoriteModeEnabled || favoriteOrgs.has(org.name));
+      if (!isMatch) isAllHidden = true;
+      card.classList.toggle("hidden", !isMatch);
+    });
   };
 
-  return <SearchInput query={query} handleSearchChange={handleSearchChange} />;
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll(".organization-card"));
+    cardsRef.current = cards as HTMLDivElement[];
+
+    const extractedData = cards.map((card) => {
+      return {
+        name: card.querySelector(".org-name")?.textContent?.toLowerCase() || "",
+        categories: Array.from(card.querySelectorAll(".org-category")).map(
+          (elem) => elem.textContent || ""
+        ),
+        years: Array.from(card.querySelectorAll(".org-year")).map(
+          (elem) => elem.textContent || ""
+        ),
+        topics: Array.from(card.querySelectorAll(".org-topic")).map(
+          (elem) => elem.textContent || ""
+        ),
+        techs: Array.from(card.querySelectorAll(".org-tech")).map(
+          (elem) => elem.textContent || ""
+        ),
+      };
+    });
+    setOrgData(extractedData);
+  }, []);
+
+  useEffect(() => {
+    if (orgData.length > 0) {
+      filterCards();
+    }
+  }, [searchQuery, getAllParams, orgData]);
+
+  return (
+    <SearchInput
+      query={searchQuery}
+      handleSearchChange={(e) =>
+        setSearchQuery(e.target.value.toLowerCase().trim())
+      }
+    />
+  );
 };
 
 export default Searchbar;

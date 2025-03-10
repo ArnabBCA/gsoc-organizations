@@ -84,7 +84,9 @@ export const CheckboxList = ({
       ))}
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="link" className="pt-0 pb-4">View More</Button>
+          <Button variant="link" className="pt-0 pb-4">
+            View All
+          </Button>
         </DialogTrigger>
         <DialogContent className="max-w-max min-w-[36rem] w-full max-h-[30rem] flex flex-col p-4">
           <DialogHeader>
@@ -108,7 +110,9 @@ export const CheckboxList = ({
               ))}
             </div>
           ) : (
-            <span className="text-center text-sm text-muted-foreground">No Filters Found</span>
+            <span className="text-center text-sm text-muted-foreground">
+              No Filters Found
+            </span>
           )}
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>

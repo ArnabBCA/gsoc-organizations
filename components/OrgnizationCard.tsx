@@ -4,6 +4,7 @@ import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import StarButton from "./StarButton";
 
 interface OrganizationCardProps {
   index?: number;
@@ -21,10 +22,12 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
       key={organization.name}
       href={`/organization/${organization.nav_url}`}
       className={cn(
-        isLandingPage && "hover:shadow-md",
-        "w-full h-full organization-card rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col items-center hiding p-4 gap-2"
+        "group",
+        isLandingPage && "relative hover:shadow-md",
+        "w-full h-full organization-card rounded-lg border bg-card text-card-foreground shadow-sm flex hidden flex-col items-center hiding p-4 gap-2"
       )}
     >
+      <StarButton navUrl={organization.name} />
       <div
         className="relative w-48 h-20 flex items-center justify-center box-border "
         style={{
