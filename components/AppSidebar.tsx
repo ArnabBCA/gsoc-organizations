@@ -62,7 +62,9 @@ export function AppSidebar() {
             <p className="text-base flex gap-1">Made with ❤️ by</p>
             <p className="font-semibold">Arnab Ghosh</p>
           </div>
-          <p className="text-sm text-muted-foreground">- GSoC'24 mentee</p>
+          <p className="text-sm text-muted-foreground">
+            {"- GSoC24 mentee"}
+          </p>
         </div>
       </SidebarFooter>
     </Sidebar>
