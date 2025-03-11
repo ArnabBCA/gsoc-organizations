@@ -69,9 +69,14 @@ export const useQueryParams = (
     return params;
   }, [searchParams]);
 
+  const resetParams = () => {
+    window.history.replaceState({}, "", window.location.pathname);
+  };
+
   return {
     selectedValues, // Returns selected values for the specified paramKey
     handleChange, // Updates the specified paramKey in the query string
     getAllParams, // Fetches all query parameters
+    resetParams, // Resets all query parameters
   };
 };

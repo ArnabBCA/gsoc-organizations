@@ -9,12 +9,12 @@ const Favorites = () => {
     useQueryParams("favorite", []);
 
   return (
-    <div className="flex items-center space-x-2 w-full justify-between pb-4">
+    <div className="flex items-center w-full justify-between">
       <Label
         htmlFor="favorites-mode"
-        className="text-base text-muted-foreground pb-1 flex items-center gap-2"
+        className="text-base flex items-center gap-2"
       >
-        {<Star className="fill-yellow-300 text-yellow-300" />}Favorites(12)
+        {<Star className="fill-yellow-300 text-yellow-300" />}Favorites (12)
       </Label>
       <Switch
         checked={selectedItem.includes("true")}
