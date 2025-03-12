@@ -9,9 +9,10 @@ interface SearchInputProps {
 
 const SearchInput = (props: SearchInputProps) => {
   return (
-    <div className="relative w-80">
-      <Search className="h-4 w-4 top-3 absolute right-3 text-slate-600 dark:text-slate-200" />
+    <div className="relative max-w-80 w-full">
+      <Search className="h-4 top-3 absolute right-3 text-slate-600 dark:text-slate-200" />
       <Input
+        className="w-full"
         name="search"
         placeholder="Search Organizations..."
         value={props.query || ""}
