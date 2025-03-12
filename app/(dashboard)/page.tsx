@@ -5,15 +5,14 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { computeOrgs } from "@/lib/getAllOrganizations";
 
 const Home = async () => {
-
   const organizations = computeOrgs();
 
   return (
     <SidebarProvider>
       <AppSidebar />
       <div className="w-full flex flex-col">
-        <Navbar />
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        <Navbar isHomePage={true} />
+        <main className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {organizations.map((org, index) => (
             <OrganizationCard
               isLandingPage={true}
@@ -22,7 +21,7 @@ const Home = async () => {
               organization={org}
             />
           ))}
-        </div>
+        </main>
       </div>
     </SidebarProvider>
   );

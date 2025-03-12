@@ -30,7 +30,7 @@ export default function RootLayout({
             </div>
           }
         >
-          <main className="h-full w-full">{children}</main>
+          {children}
         </Suspense>
       </body>
     </html>

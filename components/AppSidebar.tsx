@@ -19,7 +19,7 @@ import ResetFiters from "./ResetFiters";
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader className="py-2 px-4 text-center flex flex-row justify-between">
+      <SidebarHeader className="py-2 px-4 text-center flex flex-row justify-between min-h-[56.8px] items-center">
         <div className="flex items-center gap-1">
           <ListTodoIcon size={20} />
           <h1 className="text-lg font-semibold">Filters</h1>
@@ -69,7 +69,7 @@ export function AppSidebar() {
             <p className="text-base flex gap-1">Made with ❤️ by</p>
             <p className="font-semibold">Arnab Ghosh</p>
           </div>
-          <p className="text-sm text-muted-foreground">{"- GSoC24 mentee"}</p>
+          <p className="text-sm text-muted-foreground">{"- GSoC'24 mentee"}</p>
         </div>
       </SidebarFooter>
     </Sidebar>
