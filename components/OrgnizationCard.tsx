@@ -45,7 +45,14 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
         />
       </div>
       <div className="w-full flex-col text-center gap-1">
-        <h2 className="text-lg font-semibold org-name">{organization.name}</h2>
+        <h2
+          className={cn(
+            organization.is_first_time_org && "org-first-time",
+            "text-lg font-semibold org-name"
+          )}
+        >
+          {organization.name}
+        </h2>
         <p className="pb-2 text-gray-700">{organization.tagline}</p>
         {organization.categories.map((category) => (
           <Badge

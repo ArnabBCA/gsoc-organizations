@@ -17,6 +17,7 @@ const Favorites = () => {
         {<Star className="fill-yellow-300 text-yellow-300" />}Favorites (12)
       </Label>
       <Switch
+        name="favorites-mode"
         checked={selectedItem.includes("true")}
         id="favorites-mode"
         onCheckedChange={(value) => handleItemChange("true", !!value)}

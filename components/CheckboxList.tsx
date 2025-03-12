@@ -32,11 +32,13 @@ const CheckboxItem = ({
 }) => {
   const labelId = `label-${item}`;
   const labelText = labelFn(item);
+  const name=`${item}-checkbox`;
 
   return (
     <div className="flex items-center gap-2">
       <Checkbox
         id={item}
+        name={name}
         aria-labelledby={labelId}
         aria-label={labelText}
         checked={checked}
@@ -82,45 +84,47 @@ export const CheckboxList = ({
           labelFn={labelFn}
         />
       ))}
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="link" className="pt-0 pb-4">
-            View All
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-max min-w-[36rem] w-full max-h-[30rem] flex flex-col p-4">
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-          </DialogHeader>
-          <Input
-            placeholder="Search Filters"
-            value={searchItem}
-            onChange={(e) => setSearchItem(e.target.value)}
-          />
-          {filteredItems.length != 0 ? (
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 h-full overflow-y-scroll">
-              {filteredItems.map((item) => (
-                <CheckboxItem
-                  key={item}
-                  item={item}
-                  checked={selectedItems.includes(item)}
-                  handleItemChange={handleItemChange}
-                  labelFn={labelFn}
-                />
-              ))}
-            </div>
-          ) : (
-            <span className="text-center text-sm text-muted-foreground">
-              No Filters Found
-            </span>
-          )}
-          <DialogFooter className="sm:justify-end">
-            <DialogClose asChild>
-              <Button type="button">Close</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {filteredItems.length > 5 && (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="link" className="p-0 max-h-min">
+              View All
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-max min-w-[36rem] w-full max-h-[30rem] flex flex-col p-4">
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+            </DialogHeader>
+            <Input
+              placeholder="Search Filters"
+              value={searchItem}
+              onChange={(e) => setSearchItem(e.target.value)}
+            />
+            {filteredItems.length != 0 ? (
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 h-full overflow-y-scroll">
+                {filteredItems.map((item) => (
+                  <CheckboxItem
+                    key={item}
+                    item={item}
+                    checked={selectedItems.includes(item)}
+                    handleItemChange={handleItemChange}
+                    labelFn={labelFn}
+                  />
+                ))}
+              </div>
+            ) : (
+              <span className="text-center text-sm text-muted-foreground">
+                No Filters Found
+              </span>
+            )}
+            <DialogFooter className="sm:justify-end">
+              <DialogClose asChild>
+                <Button type="button">Close</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

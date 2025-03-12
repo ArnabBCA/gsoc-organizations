@@ -17,14 +17,13 @@ const Searchbar = () => {
       years: string[];
       topics: string[];
       techs: string[];
+      isfirstTime: boolean;
     }[]
   >([]);
 
   const matchesFilter = (filters: string[], values: string[]) =>
     filters.length === 0 ||
-    filters.some((filter) =>
-      values.map((v) => v.toLowerCase()).includes(filter.toLowerCase())
-    );
+    filters.some((filter) => values.includes(filter.toLowerCase()));
 
   const filterCards = () => {
     const params = getAllParams();
@@ -34,8 +33,10 @@ const Searchbar = () => {
       topics = [],
       techs = [],
       favorite = [],
+      others = [],
     } = params;
     const isFavoriteModeEnabled = favorite[0] === "true";
+    const isFirstTimeOrgsEnabled = others.includes("First time organizations");
 
     const favoriteOrgs = isFavoriteModeEnabled
       ? new Set(
@@ -47,15 +48,18 @@ const Searchbar = () => {
 
     //let isAllHidden = false;
 
+    const searchQueryValue = searchQuery.toLowerCase().trim();
+
     cardsRef.current.forEach((card, index) => {
-      const org = orgData[index]; // Use the pre-extracted data
+      const org = orgData[index];
       const isMatch =
-        (!searchQuery || org.name.includes(searchQuery)) &&
+        (!searchQueryValue || org.name.includes(searchQueryValue)) &&
         matchesFilter(categories, org.categories) &&
         matchesFilter(years, org.years) &&
         matchesFilter(topics, org.topics) &&
         matchesFilter(techs, org.techs) &&
-        (!isFavoriteModeEnabled || favoriteOrgs.has(org.name));
+        (isFirstTimeOrgsEnabled ? org.isfirstTime : true) &&
+        (isFavoriteModeEnabled ? favoriteOrgs.has(org.name) : true);
       //if (!isMatch) isAllHidden = true;
       card.classList.toggle("hidden", !isMatch);
     });
@@ -69,17 +73,18 @@ const Searchbar = () => {
       return {
         name: card.querySelector(".org-name")?.textContent?.toLowerCase() || "",
         categories: Array.from(card.querySelectorAll(".org-category")).map(
-          (elem) => elem.textContent || ""
+          (elem) => elem.textContent?.toLocaleLowerCase() || ""
         ),
         years: Array.from(card.querySelectorAll(".org-year")).map(
-          (elem) => elem.textContent || ""
+          (elem) => elem.textContent?.toLocaleLowerCase() || ""
         ),
         topics: Array.from(card.querySelectorAll(".org-topic")).map(
-          (elem) => elem.textContent || ""
+          (elem) => elem.textContent?.toLocaleLowerCase() || ""
         ),
         techs: Array.from(card.querySelectorAll(".org-tech")).map(
-          (elem) => elem.textContent || ""
+          (elem) => elem.textContent?.toLocaleLowerCase() || ""
         ),
+        isfirstTime: card.querySelector(".org-first-time") ? true : false,
       };
     });
     setOrgData(extractedData);
@@ -94,9 +99,7 @@ const Searchbar = () => {
   return (
     <SearchInput
       query={searchQuery}
-      handleSearchChange={(e) =>
-        setSearchQuery(e.target.value.toLowerCase().trim())
-      }
+      handleSearchChange={(e) => setSearchQuery(e.target.value)}
     />
   );
 };

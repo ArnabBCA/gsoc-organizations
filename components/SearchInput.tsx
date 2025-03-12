@@ -12,6 +12,7 @@ const SearchInput = (props: SearchInputProps) => {
     <div className="relative w-80">
       <Search className="h-4 w-4 top-3 absolute right-3 text-slate-600 dark:text-slate-200" />
       <Input
+        name="search"
         placeholder="Search Organizations..."
         value={props.query || ""}
         onChange={props.handleSearchChange || (() => {})}

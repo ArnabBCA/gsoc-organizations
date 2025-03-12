@@ -21,6 +21,7 @@ export const computeOrgs = () => {
     const orgData: Organization = {
       last_arrived_year: year,
       name: orgName,
+      is_first_time_org: year === YEARS[0],
       tagline: org.tagline,
       website_url: org.website_url,
       nav_url: sanitize(orgName),
@@ -44,6 +45,7 @@ export const computeOrgs = () => {
 
     if (organizationsMap.has(key)) {
       const existingOrg = organizationsMap.get(orgName.toLowerCase());
+      existingOrg.is_first_time_org = false;
       existingOrg.years_appeared.push(year);
       existingOrg.projects = existingOrg.projects.concat(org.projects);
       existingOrg.projects_by_year[year] =
@@ -73,9 +75,10 @@ export const computeOrgs = () => {
     a.name.localeCompare(b.name)
   );
 
-  /*const categoryCounts: Record<string, number> = {};
+  const categoryCounts: Record<string, number> = {};
   const topicCounts: Record<string, number> = {};
   const techCounts: Record<string, number> = {};
+  let firstTimeOrgs: number = 0;
 
   type YearTechCounts = {
     [year: number]: {
@@ -85,6 +88,10 @@ export const computeOrgs = () => {
 
   const yearTechCounts: YearTechCounts = {};
   organizations.forEach((org) => {
+    if (org.is_first_time_org) {
+      firstTimeOrgs += 1;
+      //console.log(org.name);
+    }
     org.categories.forEach((category: string) => {
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
     });
@@ -104,6 +111,7 @@ export const computeOrgs = () => {
     });
   });
 
+  //console.log(`First time organizations: ${firstTimeOrgs}`);
   //console.log(categoryCounts);
   //console.log(topicCounts);
   //console.log(techCounts);
@@ -111,7 +119,7 @@ export const computeOrgs = () => {
   //console.log(`Total organizations: ${organizations.length}`);
 
   // Define the file path inside the `public` folder
-  const filePath = path.join(process.cwd(), "public", "yearTechCounts.json");
-  fs.writeFileSync(filePath, JSON.stringify(yearTechCounts, null, 2), "utf-8");*/
+  //const filePath = path.join(process.cwd(), "public", "yearTechCounts.json");
+  //fs.writeFileSync(filePath, JSON.stringify(yearTechCounts, null, 2), "utf-8");
   return organizations;
 };

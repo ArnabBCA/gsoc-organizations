@@ -128,7 +128,8 @@ export const organizationNameFilters: Record<string, string> = {
     "Canadian Centre for Computational Genomics",
   "Cuneiform Digital Library Initiative":
     "Cuneiform Digital Library Initiative (CDLI)",
-  "D Foundation": "D Programming Language",
+  "D Foundation": "D Language Foundation",
+  "D Programming Languag": "D Language Foundation",
   Drupal: "Drupal Association",
   "Earth Science Information Partners (ESIP)":
     "Earth Science Information Partners",
@@ -179,4 +180,4 @@ export const technologyFilters: Record<string, string[]> = {
   "web/html/css": ["web", "html", "css"],
   node: ["node.js"],
   nodejs: ["node.js"],
-}
+};
