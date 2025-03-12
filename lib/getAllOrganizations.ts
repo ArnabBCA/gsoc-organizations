@@ -75,7 +75,7 @@ export const computeOrgs = () => {
     a.name.localeCompare(b.name)
   );
 
-  const categoryCounts: Record<string, number> = {};
+  /*const categoryCounts: Record<string, number> = {};
   const topicCounts: Record<string, number> = {};
   const techCounts: Record<string, number> = {};
   let firstTimeOrgs: number = 0;
@@ -109,7 +109,7 @@ export const computeOrgs = () => {
       }
       yearTechCounts[org.last_arrived_year][tech] += 1;
     });
-  });
+  });*/
 
   //console.log(`First time organizations: ${firstTimeOrgs}`);
   //console.log(categoryCounts);
