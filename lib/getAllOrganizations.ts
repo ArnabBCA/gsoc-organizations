@@ -19,6 +19,7 @@ export const computeOrgs = () => {
     const orgName = (organizationNameFilters[org.name] || org.name).trim();
 
     const orgData: Organization = {
+      last_arrived_year: year,
       name: orgName,
       tagline: org.tagline,
       website_url: org.website_url,
@@ -31,8 +32,8 @@ export const computeOrgs = () => {
       tech_tags: org.tech_tags.map(
         (tech: string) => technologyFilters[tech] || tech
       ),
-      projects: org.projects,
-      projects_by_year: { [year]: org.projects.length },
+      projects: org.projects || [],
+      projects_by_year: { [year]: org.projects?.length || 0 },
       contact_links: org.contact_links.map((link: any) => ({
         name: link.name.replace(/\s+/g, "").toLowerCase(),
         value: link.value || link.url,
@@ -68,13 +69,21 @@ export const computeOrgs = () => {
     }
   });
 
-  const categoryCounts: Record<string, number> = {};
-  const topicCounts: Record<string, number> = {};
-  const techCounts: Record<string, number> = {};
-
   const organizations = Array.from(organizationsMap.values()).sort((a, b) =>
     a.name.localeCompare(b.name)
   );
+
+  /*const categoryCounts: Record<string, number> = {};
+  const topicCounts: Record<string, number> = {};
+  const techCounts: Record<string, number> = {};
+
+  type YearTechCounts = {
+    [year: number]: {
+      [tech: string]: number;
+    };
+  };
+
+  const yearTechCounts: YearTechCounts = {};
   organizations.forEach((org) => {
     org.categories.forEach((category: string) => {
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
@@ -84,12 +93,25 @@ export const computeOrgs = () => {
     });
     org.tech_tags.forEach((tech: string) => {
       techCounts[tech] = (techCounts[tech] || 0) + 1;
+
+      if (!yearTechCounts[org.last_arrived_year]) {
+        yearTechCounts[org.last_arrived_year] = {}; // Initialize the year if it doesn't exist
+      }
+      if (!yearTechCounts[org.last_arrived_year][tech]) {
+        yearTechCounts[org.last_arrived_year][tech] = 0; // Initialize the tech count
+      }
+      yearTechCounts[org.last_arrived_year][tech] += 1;
     });
   });
 
   //console.log(categoryCounts);
   //console.log(topicCounts);
   //console.log(techCounts);
+  //console.log(yearTechCounts);
+  //console.log(`Total organizations: ${organizations.length}`);
 
+  // Define the file path inside the `public` folder
+  const filePath = path.join(process.cwd(), "public", "yearTechCounts.json");
+  fs.writeFileSync(filePath, JSON.stringify(yearTechCounts, null, 2), "utf-8");*/
   return organizations;
 };
