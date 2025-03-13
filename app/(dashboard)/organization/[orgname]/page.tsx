@@ -1,7 +1,5 @@
 import { OrganizationChart } from "@/components/OrganizationChart";
 import OrganizationCard from "@/components/OrgnizationCard";
-import fs from "fs";
-import path from "path";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
 import { computeOrgs } from "@/lib/getAllOrganizations";
@@ -39,30 +37,23 @@ export default async function Page(props: { params: Params }) {
   const org = organizations.find((o) => o.nav_url === params.orgname);
   if (!org) {
     return <div>Organization not found</div>;
-  } else {
-    const yearsAppearedData = { projects_by_year: org.projects_by_year };
-    const analyticsFolder = path.join(process.cwd(), "public", "analytics");
-    if (!fs.existsSync(analyticsFolder)) {
-      fs.mkdirSync(analyticsFolder, { recursive: true });
-    }
-    const filePath = path.join(analyticsFolder, `${org.nav_url}.json`);
-    fs.writeFileSync(
-      filePath,
-      JSON.stringify(yearsAppearedData, null, 2),
-      "utf8"
-    );
   }
 
   return (
-    <div className="w-full flex flex-col gap-4 items-center py-4">
+    <div className="w-full flex flex-col gap-4 items-center p-4">
       <div className="w-full flex flex-col sm:flex-col md:flex-col lg:flex-row gap-4 justify-center items-center">
         <OrganizationCard
           key={org.name}
           organization={org}
           isLandingPage={false}
         />
-        <ConatctLinks contactLinks={org.contact_links} />
-        <OrganizationChart />
+        <ConatctLinks
+          contactLinks={org.contact_links}
+          direct_comm_methods={org.direct_comm_methods}
+          social_comm_methods={org.social_comm_methods}
+          org={org}
+        />
+        <OrganizationChart yearsAppearedData={org.projects_by_year} />
       </div>
       <PastProjects projects={org.projects} />
     </div>

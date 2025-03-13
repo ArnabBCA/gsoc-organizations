@@ -13,76 +13,117 @@ import { Card } from "@/components/ui/card";
 
 type ContactLinksProps = {
   contactLinks: ContactLink[];
+  direct_comm_methods: ContactLink[];
+  social_comm_methods: ContactLink[];
+  org: {
+    ideas_link: string;
+    contributor_guidance_url: string;
+  };
 };
 
-const ContactLinks: React.FC<ContactLinksProps> = ({ contactLinks }) => {
-  const linkformat: Record<
-    string,
-    { icon: React.ReactNode; dispalyName: string }
-  > = {
-    email: {
-      icon: <Mail />,
-      dispalyName: "Email",
-    },
-    blog: {
-      icon: <NotebookPen />,
-      dispalyName: "Blog",
-    },
-    chat: {
-      icon: <MessageCircle />,
-      dispalyName: "Chat",
-    },
-    irc: {
-      icon: <MessageCircle />,
-      dispalyName: "IRC",
-    },
-    twitter: {
-      icon: <Twitter />,
-      dispalyName: "Twitter / X",
-    },
-    facebook: {
-      icon: <Facebook />,
-      dispalyName: "Facebook",
-    },
-    mailinglist: {
-      icon: <Mail />,
-      dispalyName: "Mailing List / Forum",
-    },
-    gplus: {
-      icon: <Mail />,
-      dispalyName: "Google Workplace",
-    },
-    "g+": {
-      icon: <Mail />,
-      dispalyName: "Google Workplace",
-    },
-  };
-
+const linkformat: Record<
+  string,
+  { icon: React.ReactNode; dispalyName: string }
+> = {
+  email: {
+    icon: <Mail size={18} />,
+    dispalyName: "Email",
+  },
+  blog: {
+    icon: <NotebookPen size={18} />,
+    dispalyName: "Blog",
+  },
+  chat: {
+    icon: <MessageCircle size={18} />,
+    dispalyName: "Chat",
+  },
+  irc: {
+    icon: <MessageCircle size={18} />,
+    dispalyName: "IRC",
+  },
+  twitter: {
+    icon: <Twitter size={18} />,
+    dispalyName: "Twitter/X",
+  },
+  facebook: {
+    icon: <Facebook size={18} />,
+    dispalyName: "Facebook",
+  },
+  mailinglist: {
+    icon: <Mail size={18} />,
+    dispalyName: "Mailing List",
+  },
+  gplus: {
+    icon: <Mail size={18} />,
+    dispalyName: "Google Workplace",
+  },
+  "g+": {
+    icon: <Mail size={18} />,
+    dispalyName: "Google Workplace",
+  },
+};
+const ContactLinks: React.FC<ContactLinksProps> = ({
+  contactLinks,
+  direct_comm_methods,
+  social_comm_methods,
+  org,
+}) => {
   return (
-    <Card className="w-full flex flex-col gap-4 items-center p-4 max-w-min h-full">
-      {contactLinks.map((link, i) => (
-        <Link
-          key={i}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full flex items-center gap-2"
-          href={
-            link.value.includes("@")
-              ? `mailto:${link.value}`
-              : link.value.startsWith("http")
-              ? link.value
-              : `https://${link.value}`
-          }
-        >
-          <Button variant="secondary" size="icon">
-            {linkformat[link.name]?.icon}
-          </Button>
-          <p className="text-center whitespace-nowrap">
-            {linkformat[link.name]?.dispalyName}
-          </p>
-        </Link>
-      ))}
+    <Card className="w-full flex flex-col gap-4 items-center justify-between p-4 max-w-min h-full">
+      <div className="flex flex-col gap-4 items-center w-full">
+        {contactLinks.map((link, i) => (
+          <CustomLink key={i} link={link} i={i} />
+        ))}
+        {direct_comm_methods.map((link, i) => (
+          <CustomLink key={i} link={link} i={i} />
+        ))}
+        {social_comm_methods.map((link, i) => (
+          <CustomLink key={i} link={link} i={i} />
+        ))}
+      </div>
+      <div className="flex flex-col gap-4 items-center w-full">
+        {org.ideas_link && (
+          <Link className="w-full" href={org.ideas_link}>
+            <Button className="w-full">Ideas List</Button>
+          </Link>
+        )}
+        {org.contributor_guidance_url && (
+          <Link className="w-full" href={org.contributor_guidance_url}>
+            <Button className="w-full" variant={"secondary"}>
+              Contributor Guide
+            </Button>
+          </Link>
+        )}
+      </div>
     </Card>
+  );
+};
+
+interface CustomLinkProps {
+  link: ContactLink;
+  i: number;
+}
+
+const CustomLink: React.FC<CustomLinkProps> = ({ link, i }) => {
+  return (
+    <Link
+      key={i}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full flex items-center gap-2"
+      href={
+        link.value.includes("@")
+          ? `mailto:${link.value}`
+          : link.value.startsWith("http")
+          ? link.value
+          : `https://${link.value}`
+      }
+    >
+      {linkformat[link.name]?.icon}
+      <p className="text-center whitespace-nowrap flex items-center gap-2 text-sm">
+        {linkformat[link.name]?.dispalyName}
+      </p>
+    </Link>
   );
 };
 

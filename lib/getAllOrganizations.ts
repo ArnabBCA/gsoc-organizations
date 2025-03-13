@@ -18,6 +18,31 @@ export const computeOrgs = () => {
   const processOrganization = (org: any, year: number) => {
     const orgName = (organizationNameFilters[org.name] || org.name).trim();
 
+    const contactLinks = org.contact_links.map((link: any) => ({
+      name: link.name.replace(/\s+/g, "").toLowerCase(),
+      value: link.value || link.url,
+    }));
+
+    const filterUniqueMethods = (methods: any[]) => {
+      const uniqueValues = new Set<string>();
+
+      return methods
+        .map((method: any) => ({
+          name: method.name.replace(/\s+/g, "").toLowerCase(),
+          value: method.value,
+        }))
+        .filter((method) => {
+          if (
+            contactLinks.some((link: any) => link.value === method.value) ||
+            uniqueValues.has(method.value)
+          ) {
+            return false; // Skip if it's already in contactLinks or seen before
+          }
+          uniqueValues.add(method.value);
+          return true;
+        });
+    };
+
     const orgData: Organization = {
       last_arrived_year: year,
       name: orgName,
@@ -25,6 +50,9 @@ export const computeOrgs = () => {
       tagline: org.tagline,
       website_url: org.website_url,
       nav_url: sanitize(orgName),
+      contributor_guidance_url:
+        year === YEARS[0] ? org.contributor_guidance_url : "",
+      ideas_link: year === YEARS[0] ? org.ideas_link : "",
       logo_url: org.logo_url,
       logo_bg_color: org.logo_bg_color,
       years_appeared: [year],
@@ -34,11 +62,15 @@ export const computeOrgs = () => {
         (tech: string) => technologyFilters[tech] || tech
       ),
       projects: org.projects || [],
-      projects_by_year: { [year]: org.projects?.length || 0 },
-      contact_links: org.contact_links.map((link: any) => ({
-        name: link.name.replace(/\s+/g, "").toLowerCase(),
-        value: link.value || link.url,
-      })),
+      projects_by_year:
+        year !== YEARS[0] && org.projects.length != 0
+          ? { [year]: org.projects?.length || 0 }
+          : {},
+      contact_links: contactLinks,
+      direct_comm_methods:
+        year === YEARS[0] ? filterUniqueMethods(org.direct_comm_methods) : [],
+      social_comm_methods:
+        year === YEARS[0] ? filterUniqueMethods(org.social_comm_methods) : [],
     };
 
     const key = orgName.toLowerCase();

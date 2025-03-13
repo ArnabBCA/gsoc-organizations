@@ -11,10 +11,12 @@ const PastProjects = ({ projects }: { projects: any[] }) => {
   ).sort((a, b) => b - a);
   return (
     <div className="w-full flex flex-col gap-4">
-      <Card className="p-4 flex flex-col gap-4 items-center justify-between sm:flex-row">
-        <CardTitle className="text-lg">Past Successful Projects</CardTitle>
-        <YearNavbar projectYears={projectYears} />
-      </Card>
+      {projects.length > 0 && (
+        <Card className="p-4 flex flex-col gap-4 items-center justify-between sm:flex-row">
+          <CardTitle className="text-lg">Past Successful Projects</CardTitle>
+          <YearNavbar projectYears={projectYears} />
+        </Card>
+      )}
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {projects.map((project, index) => {
           return (

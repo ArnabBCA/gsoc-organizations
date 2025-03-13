@@ -5,7 +5,11 @@ export type Organization = {
   nav_url: string;
   tagline: string;
   website_url: string;
+  contributor_guidance_url: string;
+  ideas_link: string;
   contact_links: ContactLink[];
+  direct_comm_methods: ContactLink[];
+  social_comm_methods: ContactLink[];
   logo_url: string;
   logo_bg_color: string;
   categories: string[];
