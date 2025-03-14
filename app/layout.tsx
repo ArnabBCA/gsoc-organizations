@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
+import { PUBLIC_DOMAIN_URL } from "@/constants";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -10,6 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(PUBLIC_DOMAIN_URL),
   title: {
     default: "Google Summer of Code Organizations",
     template: "%s | Google Summer of Code Organizations",
