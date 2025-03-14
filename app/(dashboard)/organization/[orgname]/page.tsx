@@ -3,6 +3,7 @@ import OrganizationCard from "@/components/OrgnizationCard";
 import PastProjects from "./_components/PastProjects";
 import ConatctLinks from "./_components/ConatctLinks";
 import { computeOrgs } from "@/lib/getAllOrganizations";
+import NotFound from "@/app/not-found";
 
 type Params = Promise<{ orgname: string }>;
 
@@ -22,13 +23,18 @@ export async function generateMetadata(props: { params: Params }) {
     return {
       title: "Organization not found",
       description: "Organization not found",
-      image: "",
     };
   }
   return {
     title: org.name,
     description: org.tagline,
-    image: org.logo_url,
+    openGraph: {
+      images: [
+        {
+          url: org.logo_url,
+        },
+      ],
+    },
   };
 }
 
@@ -36,9 +42,8 @@ export default async function Page(props: { params: Params }) {
   const params = await props.params;
   const org = organizations.find((o) => o.nav_url === params.orgname);
   if (!org) {
-    return <div>Organization not found</div>;
+    return NotFound();
   }
-
   return (
     <div className="w-full flex flex-col gap-4 items-center p-4">
       <div className="w-full flex flex-col h-full lg:flex-row gap-4 justify-center items-center">

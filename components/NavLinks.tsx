@@ -9,8 +9,8 @@ const NavLinks = ({ className }: { className?: string }) => {
   const pathname = usePathname();
   const routes = [
     {
-      href: "/about",
-      label: "About",
+      href: "/",
+      label: "Home",
     },
     {
       href: "/timeline",

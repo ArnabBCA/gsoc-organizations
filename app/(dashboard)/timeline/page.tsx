@@ -3,6 +3,14 @@ import Timeline, { TimelineItemType } from "./_components/Timeline";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Timeline",
+  description: "Google Summer of Code 2025 timeline",
+  keywords:
+    "Google Summer of Code, GSoC 2025, GSoC timeline, Google Summer of Code timeline",
+};
 
 const timelineData: TimelineItemType[] = [
   {

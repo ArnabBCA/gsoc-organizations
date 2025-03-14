@@ -7,6 +7,7 @@ import NavLinks from "./NavLinks";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import SocialLinks from "./SocialLinks";
+import Logo from "../assets/LoaderImg.svg";
 
 const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
   return (
@@ -37,7 +38,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
           <div className="flex items-center gap-5">
             <Link href="/" className="w-max flex items-center gap-2">
               <Image
-                src="/assets/LoaderImg.svg"
+                src={Logo}
                 alt="GSoC Organizations Logo"
                 height={30}
                 width={30}
