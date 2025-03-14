@@ -9,14 +9,12 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import NavLinks from "./NavLinks";
-import { Dialog } from "@radix-ui/react-dialog";
-import { DialogFooter } from "./ui/dialog";
 
-const MobileMenu = () => {
+const MobileMenu = ({ className }: { className?: string }) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant={"secondary"} size={"icon"}>
+        <Button className={className} variant={"secondary"} size={"icon"}>
           <Menu size="20" />
         </Button>
       </DrawerTrigger>
@@ -24,9 +22,9 @@ const MobileMenu = () => {
         <DrawerHeader>
           <NavLinks className="flex gap-2 flex-col" />
         </DrawerHeader>
-        <DialogFooter className="text-sm text-muted-foreground w-full items-center justify-center sm:!justify-center">
+        <DrawerFooter className="text-sm text-muted-foreground w-full items-center justify-center sm:!justify-center">
           <p>Version 1.0.0</p>
-        </DialogFooter>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

@@ -25,7 +25,7 @@ const NavLinks = ({ className }: { className?: string }) => {
           <Link
             className={cn(
               activeRoute?.href === route.href && "font-semibold",
-              "text-neutral-800"
+              "text-neutral-800 hover:font-medium"
             )}
             href={route.href}
           >

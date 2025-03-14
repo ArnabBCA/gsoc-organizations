@@ -2,6 +2,7 @@ import React from "react";
 import Timeline, { TimelineItemType } from "./_components/Timeline";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
 const timelineData: TimelineItemType[] = [
   {
@@ -144,6 +145,7 @@ const MyComponent = () => {
         <Button>View official data source</Button>
       </Link>
       <Timeline items={timelineData} />
+      <Footer />
     </div>
   );
 };

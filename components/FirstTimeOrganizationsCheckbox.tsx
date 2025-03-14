@@ -15,6 +15,7 @@ const FirstTimeOrganizationsCheckbox = () => {
       selectedItems={selectedItem}
       handleItemChange={handleItemChange}
       labelFn={(item) => `${item} (${FIRST_TIME_ORGANOZATIONS})`}
+      hideDialog={true}
     />
   );
 };

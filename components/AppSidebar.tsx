@@ -15,6 +15,7 @@ import FirstTimeOrganizationsCheckbox from "./FirstTimeOrganizationsCheckbox";
 import { CATEGORIES, TECHS, TOPICS, YEARS } from "@/constants";
 import { ListTodoIcon } from "lucide-react";
 import ResetFiters from "./ResetFiters";
+import Footer from "./Footer";
 
 export function AppSidebar() {
   return (
@@ -63,14 +64,8 @@ export function AppSidebar() {
           <TechCheckbox />
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="gap-0">
-        <div className="hover:bg-neutral-200 p-2 rounded-lg cursor-pointer text-center">
-          <div className="flex items-cente justify-center gap-1">
-            <p className="text-base flex gap-1">Made with ❤️ by</p>
-            <p className="font-semibold">Arnab Ghosh</p>
-          </div>
-          <p className="text-sm text-muted-foreground">{"- GSoC'24 mentee"}</p>
-        </div>
+      <SidebarFooter className="gap-0 px-4 py-2">
+        <Footer />
       </SidebarFooter>
     </Sidebar>
   );

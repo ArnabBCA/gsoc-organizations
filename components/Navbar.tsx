@@ -6,12 +6,13 @@ import { cn } from "@/lib/utils";
 import NavLinks from "./NavLinks";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
+import SocialLinks from "./SocialLinks";
 
 const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
   return (
     <header
       className={cn(
-        "bg-card/60 backdrop-blur flex min-h-[56.8px] border-b w-full sticky top-0 z-10 items-center"
+        "bg-card/60 backdrop-blur flex min-h-[56.8px] border-b w-full sticky top-0 z-[5] items-center"
       )}
     >
       {isHomePage && (
@@ -23,18 +24,18 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
       <div
         className={cn(
           !isHomePage ? "max-w-6xl" : "max-w-screen-desktop",
-          "flex px-4 py-2  mx-auto w-full gap-2 justify-between items-center flex-col sm:flex-row"
+          "flex px-4 py-2 mx-auto w-full justify-between items-center flex-col sm:flex-row gap-4"
         )}
       >
-        <div className="flex items-center gap-2 w-full justify-between">
+        <div className="flex items-center w-full gap-4 justify-between">
           {isHomePage && (
             <SidebarTrigger
               className="min-h-10 min-w-10 sm:ml-4 sticky left-0 custom2k:absolute sm:hidden"
               variant={"secondary"}
             />
           )}
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2">
+          <div className="flex items-center gap-5">
+            <Link href="/" className="w-max flex items-center gap-2">
               <Image
                 src="/assets/LoaderImg.svg"
                 alt="GSoC Organizations Logo"
@@ -45,18 +46,18 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
                 <span className="font-semibold">GSoC</span> Organizations
               </h1>
             </Link>
-            <NavLinks className="hidden gap-4 md:flex" />
+            <NavLinks className="hidden gap-4 lg:flex" />
           </div>
-          <div className="sm:hidden">
-            <MobileMenu />
+          <div className="flex items-center gap-4">
+            <MobileMenu
+              className={cn(isHomePage ? "sm:hidden" : "lg:hidden")}
+            />
+            <div className="hidden lg:flex">
+              <SocialLinks />
+            </div>
           </div>
         </div>
-        <div className="flex items-center w-full justify-end gap-4">
-          {isHomePage && <Searchbar />}
-          <div className="hidden sm:flex md:hidden">
-            <MobileMenu />
-          </div>
-        </div>
+        {isHomePage && <Searchbar />}
       </div>
     </header>
   );

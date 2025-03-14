@@ -17,6 +17,7 @@ type CheckboxListProps = {
   selectedItems: string[];
   handleItemChange: (item: string, checked: boolean) => void;
   labelFn: (item: string) => string;
+  hideDialog?: boolean;
 };
 
 const CheckboxItem = ({
@@ -32,7 +33,7 @@ const CheckboxItem = ({
 }) => {
   const labelId = `label-${item}`;
   const labelText = labelFn(item);
-  const name=`${item}-checkbox`;
+  const name = `${item}-checkbox`;
 
   return (
     <div className="flex items-center gap-2">
@@ -56,6 +57,7 @@ export const CheckboxList = ({
   selectedItems,
   handleItemChange,
   labelFn,
+  hideDialog = false,
 }: CheckboxListProps) => {
   const [searchItem, setSearchItem] = useState("");
 
@@ -84,7 +86,7 @@ export const CheckboxList = ({
           labelFn={labelFn}
         />
       ))}
-      {filteredItems.length > 5 && (
+      {!hideDialog && (
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="link" className="p-0 max-h-min">
