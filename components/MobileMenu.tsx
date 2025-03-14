@@ -9,6 +9,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import NavLinks from "./NavLinks";
+import SocialLinks from "./SocialLinks";
 
 const MobileMenu = ({ className }: { className?: string }) => {
   return (
@@ -19,8 +20,9 @@ const MobileMenu = ({ className }: { className?: string }) => {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader>
+        <DrawerHeader className="gap-4">
           <NavLinks className="flex gap-2 flex-col" />
+          <SocialLinks className="flex-col" />
         </DrawerHeader>
         <DrawerFooter className="text-sm text-muted-foreground w-full items-center justify-center sm:!justify-center">
           <p>Version 1.0.0</p>
