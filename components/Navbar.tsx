@@ -1,7 +1,7 @@
 import React from "react";
 import { SidebarTrigger } from "./ui/sidebar";
 import Searchbar from "./Searchbar";
-import Image from "next/image";
+import Image from "@/components/MyImage";
 import { cn } from "@/lib/utils";
 import NavLinks from "./NavLinks";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
       <div
         className={cn(
           !isHomePage ? "max-w-6xl" : "max-w-screen-desktop",
-          "flex px-4 py-2 mx-auto w-full justify-between items-center flex-col sm:flex-row gap-4"
+          "flex px-4 py-2 mx-auto w-full justify-between items-center flex-col sm:flex-row gap-2 sm:gap-4"
         )}
       >
         <div className="flex items-center w-full gap-4 justify-between">

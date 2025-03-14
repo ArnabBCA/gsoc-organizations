@@ -2,7 +2,7 @@ import React from "react";
 import { Organization } from "@/types/types";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/MyImage";
 import { cn } from "@/lib/utils";
 import StarButton from "./StarButton";
 
