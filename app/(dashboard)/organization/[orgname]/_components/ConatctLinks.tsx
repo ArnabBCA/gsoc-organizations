@@ -69,7 +69,7 @@ const ContactLinks: React.FC<ContactLinksProps> = ({
   org,
 }) => {
   return (
-    <Card className="w-full flex flex-col gap-4 items-center justify-between p-4 max-w-min h-full">
+    <Card className="flex flex-col items-center justify-between p-4 w-full sm:max-w-min h-full gap-4">
       <div className="flex flex-col gap-4 items-center w-full">
         {contactLinks.map((link, i) => (
           <CustomLink key={i} link={link} i={i} />
@@ -81,20 +81,32 @@ const ContactLinks: React.FC<ContactLinksProps> = ({
           <CustomLink key={i} link={link} i={i} />
         ))}
       </div>
-      <div className="flex flex-col gap-4 items-center w-full">
-        {org.ideas_link && (
-          <Link className="w-full" href={org.ideas_link}>
-            <Button className="w-full">Ideas List</Button>
-          </Link>
-        )}
-        {org.contributor_guidance_url && (
-          <Link className="w-full" href={org.contributor_guidance_url}>
-            <Button className="w-full" variant={"secondary"}>
-              Contributor Guide
-            </Button>
-          </Link>
-        )}
-      </div>
+      {(org.ideas_link || org.contributor_guidance_url) && (
+        <div className="flex flex-col gap-4 items-center w-full">
+          {org.ideas_link && (
+            <Link
+              className="w-full"
+              href={org.ideas_link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="w-full">Ideas List</Button>
+            </Link>
+          )}
+          {org.contributor_guidance_url && (
+            <Link
+              className="w-full"
+              href={org.contributor_guidance_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="w-full" variant={"secondary"}>
+                Contributor Guide
+              </Button>
+            </Link>
+          )}
+        </div>
+      )}
     </Card>
   );
 };
@@ -110,7 +122,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({ link, i }) => {
       key={i}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-full flex items-center gap-2"
+      className="w-full flex items-center gap-2 justify-center sm:justify-start"
       href={
         link.value.includes("@")
           ? `mailto:${link.value}`

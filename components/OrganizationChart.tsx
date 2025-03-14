@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { Bar, BarChart, LabelList, XAxis } from "recharts";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
@@ -52,7 +52,7 @@ export function OrganizationChart({
     chartData[0] && Object.keys(yearsAppearedData).length > 0;
 
   return (
-    <Card className="w-full relative p-4 h-full sm:max-w-[665.6px] flex flex-col justify-between">
+    <Card className="relative p-4 h-full max-w-full sm:max-w-md w-full flex flex-col justify-between">
       <div className="flex flex-col">
         <h2 className="text-lg font-semibold org-name">
           Number of pojects per year

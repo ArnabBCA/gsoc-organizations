@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const NavLinks = () => {
+const NavLinks = ({ className }: { className?: string }) => {
   const pathname = usePathname();
   const routes = [
     {
@@ -19,7 +19,7 @@ const NavLinks = () => {
   ];
   const activeRoute = routes.find((route) => route.href === pathname);
   return (
-    <ul className="flex gap-4 items-center">
+    <ul className={cn("items-center", className)}>
       {routes.map((route) => (
         <li key={route.href}>
           <Link

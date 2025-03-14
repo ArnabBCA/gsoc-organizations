@@ -41,18 +41,20 @@ export default async function Page(props: { params: Params }) {
 
   return (
     <div className="w-full flex flex-col gap-4 items-center p-4">
-      <div className="w-full flex flex-col sm:flex-col md:flex-col lg:flex-row gap-4 justify-center items-center">
-        <OrganizationCard
-          key={org.name}
-          organization={org}
-          isLandingPage={false}
-        />
-        <ConatctLinks
-          contactLinks={org.contact_links}
-          direct_comm_methods={org.direct_comm_methods}
-          social_comm_methods={org.social_comm_methods}
-          org={org}
-        />
+      <div className="w-full flex flex-col h-full lg:flex-row gap-4 justify-center items-center">
+        <div className="w-full flex gap-4 h-full flex-col sm:flex-row justify-center items-center">
+          <OrganizationCard
+            key={org.name}
+            organization={org}
+            isLandingPage={false}
+          />
+          <ConatctLinks
+            contactLinks={org.contact_links}
+            direct_comm_methods={org.direct_comm_methods}
+            social_comm_methods={org.social_comm_methods}
+            org={org}
+          />
+        </div>
         <OrganizationChart yearsAppearedData={org.projects_by_year} />
       </div>
       <PastProjects projects={org.projects} />

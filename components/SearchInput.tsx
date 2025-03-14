@@ -9,7 +9,7 @@ interface SearchInputProps {
 
 const SearchInput = (props: SearchInputProps) => {
   return (
-    <div className="relative max-w-80 w-full">
+    <div className="relative w-full sm:max-w-80">
       <Search className="h-4 top-3 absolute right-3 text-slate-600 dark:text-slate-200" />
       <Input
         className="w-full"

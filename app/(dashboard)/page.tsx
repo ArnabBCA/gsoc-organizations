@@ -12,7 +12,7 @@ const Home = async () => {
       <AppSidebar />
       <div className="w-full flex flex-col">
         <Navbar isHomePage={true} />
-        <main className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        <main className="max-w-screen-desktop w-full mx-auto grid justify-items-center items-center grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
           {organizations.map((org, index) => (
             <OrganizationCard
               isLandingPage={true}

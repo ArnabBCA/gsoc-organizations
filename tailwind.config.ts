@@ -9,6 +9,10 @@ export default {
   ],
   theme: {
   	extend: {
+      screens: {
+        desktop: "1440px",
+		custom2k: "1820px",
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
