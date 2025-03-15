@@ -15,6 +15,7 @@ const YearCheckbox = () => {
       selectedItems={selectedYears}
       handleItemChange={handleYearChange}
       labelFn={(year) => year}
+      filterTitleType="Year"
     />
   );
 };

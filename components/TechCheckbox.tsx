@@ -17,6 +17,7 @@ const TechCheckbox = () => {
       labelFn={(techName) => {
         return `${techName} (${TECHS[techName]})`;
       }}
+      filterTitleType="Tech"
     />
   );
 };

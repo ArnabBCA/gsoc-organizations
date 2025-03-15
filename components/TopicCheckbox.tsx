@@ -17,6 +17,7 @@ const TopicCheckbox = () => {
       labelFn={(topicName) => {
         return `${topicName} (${TOPICS[topicName]})`;
       }}
+      filterTitleType="Topic"
     />
   );
 };

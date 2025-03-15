@@ -18,6 +18,7 @@ type CheckboxListProps = {
   handleItemChange: (item: string, checked: boolean) => void;
   labelFn: (item: string) => string;
   hideDialog?: boolean;
+  filterTitleType?: string;
 };
 
 const CheckboxItem = ({
@@ -36,7 +37,7 @@ const CheckboxItem = ({
   const name = `${item}-checkbox`;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 min-w-28">
       <Checkbox
         id={item}
         name={name}
@@ -58,6 +59,7 @@ export const CheckboxList = ({
   handleItemChange,
   labelFn,
   hideDialog = false,
+  filterTitleType,
 }: CheckboxListProps) => {
   const [searchItem, setSearchItem] = useState("");
 
@@ -93,9 +95,9 @@ export const CheckboxList = ({
               View All
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-max min-w-[36rem] w-full max-h-[30rem] flex flex-col p-4">
+          <DialogContent className="max-w-max w-full max-h-[30rem] flex flex-col p-4">
             <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogTitle>{`All ${filterTitleType} Filters`}</DialogTitle>
             </DialogHeader>
             <Input
               placeholder="Search Filters"

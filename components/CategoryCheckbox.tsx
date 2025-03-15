@@ -19,6 +19,7 @@ const CategoryCheckbox = () => {
       labelFn={(categoryName) => {
         return `${categoryName} (${CATEGORIES[categoryName]})`;
       }}
+      filterTitleType="Category"
     />
   );
 };
