@@ -13,7 +13,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
   return (
     <header
       className={cn(
-        "bg-card/60 backdrop-blur flex min-h-[56.8px] border-b w-full sticky top-0 z-[5] items-center"
+        "bg-card/60 backdrop-blur-sm flex min-h-[56.8px] border-b w-full sticky top-0 z-5 items-center"
       )}
     >
       {isHomePage && (
@@ -24,7 +24,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
       )}
       <div
         className={cn(
-          !isHomePage ? "max-w-6xl" : "max-w-screen-desktop",
+          !isHomePage ? "max-w-6xl" : "max-w-(--breakpoint-desktop)",
           "flex px-4 py-2 mx-auto w-full justify-between items-center flex-col sm:flex-row gap-2 sm:gap-4"
         )}
       >

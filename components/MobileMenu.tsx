@@ -24,7 +24,7 @@ const MobileMenu = ({ className }: { className?: string }) => {
           <NavLinks className="flex gap-2 flex-col" />
           <SocialLinks className="flex-col" />
         </DrawerHeader>
-        <DrawerFooter className="text-sm text-muted-foreground w-full items-center justify-center sm:!justify-center">
+        <DrawerFooter className="text-sm text-muted-foreground w-full items-center justify-center sm:justify-center!">
           <p>Version 1.0.0</p>
         </DrawerFooter>
       </DrawerContent>
