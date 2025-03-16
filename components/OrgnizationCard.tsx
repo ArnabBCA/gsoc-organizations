@@ -1,10 +1,10 @@
 import React from "react";
 import { Organization } from "@/types/types";
-import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Image from "@/components/MyImage";
 import { cn } from "@/lib/utils";
 import StarButton from "./StarButton";
+import { Badge } from "./ui/badge";
 
 interface OrganizationCardProps {
   index?: number;
@@ -16,14 +16,13 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
   isLandingPage,
   organization,
 }) => {
-  const numberOfTags = 5;
   return (
     <Link
       key={organization.name}
       href={`/organization/${organization.nav_url}`}
       className={cn(
         isLandingPage && "relative hover:shadow-md",
-        "group max-w-full sm:max-w-lg w-full h-full organization-card rounded-lg border bg-card text-card-foreground shadow-xs flex flex-col items-center hiding p-4 gap-2"
+        "group max-w-full sm:max-w-lg w-full h-full organization-card rounded-xl border bg-card text-card-foreground shadow-sm flex flex-col items-center hiding p-4 gap-2"
       )}
     >
       <StarButton navUrl={organization.name} />
@@ -54,67 +53,63 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
           {organization.name}
         </h2>
         <p className="pb-2 text-gray-700">{organization.tagline}</p>
-        {organization.categories.map((category) => (
-          <Badge
-            key={category}
-            className="bg-primary text-white org-category"
-            variant="outline"
-          >
-            {category}
-          </Badge>
-        ))}
+        <CustomBadge
+          dataArray={organization.categories}
+          color="primary"
+          className="org-category"
+        />
         <br />
-        {organization.years_appeared.map((year) => (
-          <Badge
-            key={year}
-            className="bg-green-600 text-muted-foreground hover:bg-green-600 text-white org-year"
-          >
-            {year}
-          </Badge>
-        ))}
+        <CustomBadge
+          dataArray={organization.years_appeared}
+          color="green"
+          className="org-year"
+        />
         <br />
-        {organization.topic_tags.map((topic, i) =>
-          i < numberOfTags ? (
-            <Badge
-              key={topic}
-              className="bg-slate-200 text-muted-foreground hover:bg-slate-200 org-topic"
-            >
-              {topic}
-            </Badge>
-          ) : (
-            <span key={topic} className="hidden org-topic">
-              {topic}
-            </span>
-          )
-        )}
-        {organization.topic_tags.length > numberOfTags && (
-          <Badge className="bg-slate-200 text-muted-foreground hover:bg-slate-200">
-            {`+${organization.topic_tags.length - numberOfTags}`}
-          </Badge>
-        )}
+        <CustomBadge
+          dataArray={organization.topic_tags}
+          color="gray"
+          className="org-topic"
+        />
         <br />
-        {organization.tech_tags.map((tech: string, i: number) =>
-          i < numberOfTags ? (
-            <Badge
-              key={tech}
-              className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white org-tech"
-            >
-              {tech}
-            </Badge>
-          ) : (
-            <span key={tech} className="hidden org-tech">
-              {tech}
-            </span>
-          )
-        )}
-        {organization.tech_tags.length > numberOfTags && (
-          <Badge className="bg-blue-700 text-muted-foreground hover:bg-blue-700 text-white">
-            {`+${organization.tech_tags.length - numberOfTags}`}
-          </Badge>
-        )}
+        <CustomBadge
+          dataArray={organization.tech_tags}
+          color="blue"
+          className="org-tech"
+        />
       </div>
     </Link>
   );
 };
 
 export default OrganizationCard;
+
+interface CustomBadgeProps {
+  dataArray: number[] | string[];
+  color: "primary" | "green" | "gray" | "blue";
+  className?: string;
+}
+
+const CustomBadge = (props: CustomBadgeProps) => {
+  return (
+    <>
+      {props.dataArray.map((data) => (
+        <Badge
+          key={data}
+          
+          className={cn(
+            props.color === "primary"
+              ? "bg-primary text-white"
+              : props.color === "green"
+              ? "bg-green-600 text-white"
+              : props.color === "gray"
+              ? "bg-slate-200 text-muted-foreground"
+              : "bg-blue-700 text-white",
+            "mr-1 border-0 rounded-full"
+          )}
+        >
+          {data}
+        </Badge>
+      ))}
+    </>
+  );
+};

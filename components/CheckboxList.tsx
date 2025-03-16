@@ -95,7 +95,7 @@ export const CheckboxList = ({
               View All
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-max w-full max-h-[30rem] flex flex-col p-4">
+          <DialogContent className="max-w-max w-full max-h-[30rem] flex flex-col p-4 sm:max-w-max">
             <DialogHeader>
               <DialogTitle>{`All ${filterTitleType} Filters`}</DialogTitle>
             </DialogHeader>

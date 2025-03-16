@@ -12,7 +12,7 @@ const SearchInput = (props: SearchInputProps) => {
   return (
     <div className="flex items-center gap-4 w-full sm:max-w-max justify-end">
       <div className="relative w-full sm:min-w-60 md:min-w-80">
-        <Search className="h-4 top-3 absolute right-3 text-slate-600 dark:text-slate-200" />
+        <Search className="h-4 top-2.5 absolute right-1.5 text-slate-600 dark:text-slate-200" />
         <Input
           className="w-full"
           name="search"

@@ -18,7 +18,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
     >
       {isHomePage && (
         <SidebarTrigger
-          className="min-h-10 min-w-10 ml-4 sticky left-0 custom2k:absolute hidden sm:flex"
+          className="min-h-9 min-w-9 ml-4 sticky left-0 custom2k:absolute hidden sm:flex"
           variant={"secondary"}
         />
       )}

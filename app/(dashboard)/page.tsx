@@ -8,7 +8,11 @@ const Home = async () => {
   const organizations = computeOrgs();
 
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      style={{
+        "--sidebar-width": "18rem",
+      } as React.CSSProperties}
+    >
       <AppSidebar />
       <div className="w-full flex flex-col">
         <Navbar isHomePage={true} />
