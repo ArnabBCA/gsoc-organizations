@@ -95,8 +95,8 @@ const CustomBadge = (props: CustomBadgeProps) => {
       {props.dataArray.map((data) => (
         <Badge
           key={data}
-          
           className={cn(
+            props.className,
             props.color === "primary"
               ? "bg-primary text-white"
               : props.color === "green"

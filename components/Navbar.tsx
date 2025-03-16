@@ -31,7 +31,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
         <div className="flex items-center w-full gap-4 justify-between">
           {isHomePage && (
             <SidebarTrigger
-              className="min-h-10 min-w-10 sm:ml-4 sticky left-0 custom2k:absolute sm:hidden"
+              className="sm:ml-4 sticky left-0 custom2k:absolute sm:hidden"
               variant={"secondary"}
             />
           )}
