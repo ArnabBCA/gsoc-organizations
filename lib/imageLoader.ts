@@ -1,18 +1,23 @@
-interface ImageLoaderProps {
+const normalizeSrc = (src: string) => {
+  return src.startsWith("/") ? src.slice(1) : src;
+};
+
+export default function imageLoader({
+  src,
+  width,
+  quality,
+}: {
   src: string;
   width: number;
   quality?: number;
+}) {
+  if (process.env.NODE_ENV === "development") {
+    return src;
+  }
+  const params = [`width=${width},'format=auto'`];
+  if (quality) {
+    params.push(`quality=${quality}`);
+  }
+  const paramsString = params.join(",");
+  return `/cdn-cgi/image/${paramsString}/${normalizeSrc(src)}`;
 }
-
-/*const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
-  const cloudflareAccountHash = "your-account-hash"; // Replace with your actual Cloudflare account hash
-  return `https://imagedelivery.net/${cloudflareAccountHash}/${src}/w=${width},q=${
-    quality || 75
-  }`;
-};*/
-
-const imageLoader = ({ src, width, quality }: ImageLoaderProps): string => {
-  return `${src}?w=${width}${quality ? `&q=${quality}` : ""}`;
-};
-
-export default imageLoader;

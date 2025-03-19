@@ -1,13 +1,12 @@
 import React from "react";
 import { Organization } from "@/types/types";
 import Link from "next/link";
-import Image from "@/components/MyImage";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import StarButton from "./StarButton";
 import { Badge } from "./ui/badge";
 
 interface OrganizationCardProps {
-  index?: number;
   isLandingPage: boolean;
   organization: Organization;
 }
@@ -18,7 +17,6 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
 }) => {
   return (
     <Link
-      key={organization.name}
       href={`/organization/${organization.nav_url}`}
       className={cn(
         isLandingPage && "relative hover:shadow-md",
@@ -38,9 +36,11 @@ const OrganizationCard: React.FC<OrganizationCardProps> = ({
         <Image
           src={organization.logo_url}
           alt={organization.name}
-          fill
-          sizes="150px"
-          className="object-contain max-h-20"
+          width={192}
+          height={80}
+          quality={50}
+          className="object-contain w-80 h-20"
+          unoptimized={process.env.NODE_ENV === "development"}
         />
       </div>
       <div className="w-full flex-col text-center gap-1">

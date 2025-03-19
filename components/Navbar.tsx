@@ -1,7 +1,7 @@
 import React from "react";
 import { SidebarTrigger } from "./ui/sidebar";
 import Searchbar from "./Searchbar";
-import Image from "@/components/MyImage";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NavLinks from "./NavLinks";
 import Link from "next/link";
@@ -42,6 +42,7 @@ const Navbar = ({ isHomePage = false }: { isHomePage?: boolean }) => {
                 alt="GSoC Organizations Logo"
                 height={30}
                 width={30}
+                unoptimized
               />
               <h1 className="text-neutral-800 whitespace-nowrap">
                 <span className="font-semibold">GSoC</span> Organizations
